@@ -110,11 +110,21 @@ class RegistrationViewController: UIViewController {
             if registered {
                 // Successful
                 print("success")
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true)
+                }
             } else {
                 print("fail")
                 // Fail
+                self.alert(title: "Error", message: "Unable to register the user.")
             }
         }
+    }
+    
+    private func alert(title: String, message: String){
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
     }
 }
 

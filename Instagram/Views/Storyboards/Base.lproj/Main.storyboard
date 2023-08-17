@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="E5O-xC-CKd">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -17,7 +18,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="barTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="selectedImageTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" systemColor="labelColor"/>
                     </tabBar>
                     <connections>
                         <segue destination="TpP-Ce-tuA" kind="relationship" relationship="viewControllers" id="dg2-mW-zWf"/>
@@ -31,11 +32,11 @@
             </objects>
             <point key="canvasLocation" x="856" y="-296"/>
         </scene>
-        <!--Home-->
+        <!--Navigation Controller-->
         <scene sceneID="Q9K-g2-zOn">
             <objects>
                 <navigationController id="TpP-Ce-tuA" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Home" image="house" catalog="system" id="ZID-6a-Esv"/>
+                    <tabBarItem key="tabBarItem" title="" image="house" catalog="system" id="ZID-6a-Esv"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="SIJ-Z5-mP0">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -64,11 +65,11 @@
             </objects>
             <point key="canvasLocation" x="-465" y="1325"/>
         </scene>
-        <!--Profile-->
+        <!--Navigation Controller-->
         <scene sceneID="eu6-Gl-Tqx">
             <objects>
                 <navigationController id="dNB-hl-9cz" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" image="person" catalog="system" selectedImage="person" id="OjQ-F4-rBk"/>
+                    <tabBarItem key="tabBarItem" title="" image="person.crop.circle" catalog="system" id="OjQ-F4-rBk"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="sDA-sP-3P8">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -81,11 +82,11 @@
             </objects>
             <point key="canvasLocation" x="2253" y="564"/>
         </scene>
-        <!--Notifications-->
+        <!--Navigation Controller-->
         <scene sceneID="NMh-lx-g7y">
             <objects>
                 <navigationController id="MUE-5a-GmF" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Notifications" image="bell" selectedImage="bell" catalog="system" id="Y0J-Jg-r2g"/>
+                    <tabBarItem key="tabBarItem" title="" image="heart" catalog="system" id="Y0J-Jg-r2g"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="v6q-Aa-L8w">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -98,11 +99,11 @@
             </objects>
             <point key="canvasLocation" x="1572" y="564"/>
         </scene>
-        <!--Photo-->
+        <!--Navigation Controller-->
         <scene sceneID="t5O-md-cPg">
             <objects>
                 <navigationController id="Qsb-Hc-UMm" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Photo" image="camera" catalog="system" id="xp9-40-cOS"/>
+                    <tabBarItem key="tabBarItem" title="" image="plus.app" catalog="system" id="xp9-40-cOS"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="y4Y-1s-fWG">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -115,11 +116,11 @@
             </objects>
             <point key="canvasLocation" x="882" y="564"/>
         </scene>
-        <!--Explore-->
+        <!--Navigation Controller-->
         <scene sceneID="PPo-1n-T8f">
             <objects>
                 <navigationController id="VW8-ic-H1V" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Explore" image="magnifyingglass" catalog="system" id="A86-Bu-XZU"/>
+                    <tabBarItem key="tabBarItem" title="" image="magnifyingglass" catalog="system" id="A86-Bu-XZU"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="kss-EI-lMw">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -198,12 +199,14 @@
         </scene>
     </scenes>
     <resources>
-        <image name="bell" width="128" height="128"/>
-        <image name="bell" catalog="system" width="125" height="128"/>
-        <image name="camera" catalog="system" width="128" height="93"/>
+        <image name="heart" catalog="system" width="128" height="107"/>
         <image name="house" catalog="system" width="128" height="104"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
-        <image name="person" catalog="system" width="128" height="121"/>
+        <image name="person.crop.circle" catalog="system" width="128" height="123"/>
+        <image name="plus.app" catalog="system" width="128" height="114"/>
+        <systemColor name="labelColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
