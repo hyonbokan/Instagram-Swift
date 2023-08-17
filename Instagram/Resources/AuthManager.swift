@@ -62,6 +62,7 @@ public class AuthManager {
             }
         } else if let username = username {
             print(username)
+//            completion(true)
         }
     }
     /// Attempt to log out the user

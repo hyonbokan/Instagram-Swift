@@ -217,6 +217,7 @@ class LoginViewController: UIViewController {
             DispatchQueue.main.async {
                 if success {
                     // user logged in
+                    print("log in success")
                     self.dismiss(animated: true, completion: nil)
                 } else {
                     // error
