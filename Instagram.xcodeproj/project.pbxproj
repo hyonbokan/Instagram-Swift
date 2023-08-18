@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		9E1970ED2A8C7CB400EEFB14 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1970EC2A8C7CB400EEFB14 /* Extensions.swift */; };
+		9ECBED592A8F52B7006460C9 /* IGFeedPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ECBED582A8F52B7006460C9 /* IGFeedPostTableViewCell.swift */; };
+		9ECBED5C2A8F5436006460C9 /* IGFeedPostHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ECBED5B2A8F5436006460C9 /* IGFeedPostHeaderTableViewCell.swift */; };
+		9ECBED5E2A8F544D006460C9 /* IGFeedPostActionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ECBED5D2A8F544D006460C9 /* IGFeedPostActionsTableViewCell.swift */; };
+		9ECBED602A8F5467006460C9 /* IGFeedPostGeneralTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ECBED5F2A8F5467006460C9 /* IGFeedPostGeneralTableViewCell.swift */; };
 		AC0FC790B5204E88E31E17BB /* Pods_Instagram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 557A86B546ADBD5E189D4FEC /* Pods_Instagram.framework */; };
 		BD0E8C4A2A8BC1C0008729E2 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0E8C492A8BC1C0008729E2 /* DatabaseManager.swift */; };
 		BD0E8C4C2A8BC254008729E2 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0E8C4B2A8BC254008729E2 /* AuthManager.swift */; };
@@ -39,6 +43,10 @@
 		1DD9B7848BAF7CF1B292605D /* Pods-Instagram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instagram.release.xcconfig"; path = "Target Support Files/Pods-Instagram/Pods-Instagram.release.xcconfig"; sourceTree = "<group>"; };
 		557A86B546ADBD5E189D4FEC /* Pods_Instagram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Instagram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E1970EC2A8C7CB400EEFB14 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		9ECBED582A8F52B7006460C9 /* IGFeedPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGFeedPostTableViewCell.swift; sourceTree = "<group>"; };
+		9ECBED5B2A8F5436006460C9 /* IGFeedPostHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGFeedPostHeaderTableViewCell.swift; sourceTree = "<group>"; };
+		9ECBED5D2A8F544D006460C9 /* IGFeedPostActionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGFeedPostActionsTableViewCell.swift; sourceTree = "<group>"; };
+		9ECBED5F2A8F5467006460C9 /* IGFeedPostGeneralTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGFeedPostGeneralTableViewCell.swift; sourceTree = "<group>"; };
 		BD0E8C492A8BC1C0008729E2 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		BD0E8C4B2A8BC254008729E2 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		BD0E8C4D2A8BC274008729E2 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
@@ -86,6 +94,25 @@
 				557A86B546ADBD5E189D4FEC /* Pods_Instagram.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9ECBED572A8F5285006460C9 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				9ECBED5A2A8F540F006460C9 /* Home Feed */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		9ECBED5A2A8F540F006460C9 /* Home Feed */ = {
+			isa = PBXGroup;
+			children = (
+				9ECBED582A8F52B7006460C9 /* IGFeedPostTableViewCell.swift */,
+				9ECBED5B2A8F5436006460C9 /* IGFeedPostHeaderTableViewCell.swift */,
+				9ECBED5D2A8F544D006460C9 /* IGFeedPostActionsTableViewCell.swift */,
+				9ECBED5F2A8F5467006460C9 /* IGFeedPostGeneralTableViewCell.swift */,
+			);
+			path = "Home Feed";
 			sourceTree = "<group>";
 		};
 		BD0E8C482A8B9113008729E2 /* General */ = {
@@ -145,6 +172,7 @@
 		BD26D5972A8B7A8F007B7F5B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9ECBED572A8F5285006460C9 /* Cells */,
 				BD26D59A2A8B7AD4007B7F5B /* Storyboards */,
 				BD26D58B2A8B7A77007B7F5B /* Assets.xcassets */,
 			);
@@ -342,19 +370,23 @@
 				BD26D5872A8B7A76007B7F5B /* HomeViewController.swift in Sources */,
 				BD26D5832A8B7A76007B7F5B /* AppDelegate.swift in Sources */,
 				BD26D5A92A8B7BA7007B7F5B /* RegistrationViewController.swift in Sources */,
+				9ECBED5C2A8F5436006460C9 /* IGFeedPostHeaderTableViewCell.swift in Sources */,
 				BD26D5B72A8B7C3A007B7F5B /* PostEditorViewController.swift in Sources */,
 				BD0E8C4E2A8BC274008729E2 /* StorageManager.swift in Sources */,
 				BD26D5AB2A8B7BBD007B7F5B /* PostViewController.swift in Sources */,
 				BD0E8C4A2A8BC1C0008729E2 /* DatabaseManager.swift in Sources */,
 				BD26D5A02A8B7B4E007B7F5B /* NotificationsViewController.swift in Sources */,
+				9ECBED592A8F52B7006460C9 /* IGFeedPostTableViewCell.swift in Sources */,
 				BD26D5B52A8B7C14007B7F5B /* SearchResultViewController.swift in Sources */,
 				BD26D5A72A8B7BA1007B7F5B /* LoginViewController.swift in Sources */,
 				9E1970ED2A8C7CB400EEFB14 /* Extensions.swift in Sources */,
+				9ECBED602A8F5467006460C9 /* IGFeedPostGeneralTableViewCell.swift in Sources */,
 				BD26D5B32A8B7C0A007B7F5B /* SearchViewController.swift in Sources */,
 				BD26D5A22A8B7B56007B7F5B /* ProfileViewController.swift in Sources */,
 				BD0E8C4C2A8BC254008729E2 /* AuthManager.swift in Sources */,
 				BD26D5852A8B7A76007B7F5B /* SceneDelegate.swift in Sources */,
 				BD26D59E2A8B7B32007B7F5B /* CameraViewController.swift in Sources */,
+				9ECBED5E2A8F544D006460C9 /* IGFeedPostActionsTableViewCell.swift in Sources */,
 				BD26D5B12A8B7BFD007B7F5B /* ListViewController.swift in Sources */,
 				BD26D5AF2A8B7BEB007B7F5B /* SettingsViewController.swift in Sources */,
 			);
