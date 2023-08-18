@@ -19,7 +19,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-    // Check what viewDidLayoutSubviews mean
+    // viewDidLayoutSubviews() is a method provided by UIViewController that is called after the view controller's view has laid out its subviews. It is part of the view controller's lifecycle and is invoked whenever the layout of the view and its subviews might have changed. This method is commonly used to perform additional layout adjustments or updates to the UI elements within the view.
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
