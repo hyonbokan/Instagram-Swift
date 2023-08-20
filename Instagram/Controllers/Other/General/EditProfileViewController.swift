@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct EditProfileForModel {
+struct EditProfileFormModel {
     let label: String
     let placeholder: String
     var value: String?
@@ -18,12 +18,12 @@ final class EditProfileViewController: UIViewController, UITableViewDataSource {
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(
-                            UITableViewCell.self,
-                            forCellReuseIdentifier: "cell")
+                            FormTableViewCell.self,
+                            forCellReuseIdentifier: FormTableViewCell.identifier)
         return tableView
     }()
     
-    private var models = [[EditProfileForModel]]()
+    private var models = [[EditProfileFormModel]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,9 +47,9 @@ final class EditProfileViewController: UIViewController, UITableViewDataSource {
     private func configureModels(){
         // name, username, website, bio
         let section1Labels = ["Name", "Username", "Bio"]
-        var section1 = [EditProfileForModel]()
+        var section1 = [EditProfileFormModel]()
         for label in section1Labels {
-            let model = EditProfileForModel(
+            let model = EditProfileFormModel(
                 label: label,
                 placeholder: "Enter \(label)...",
                 value: nil)
@@ -58,9 +58,9 @@ final class EditProfileViewController: UIViewController, UITableViewDataSource {
         models.append(section1)
         // email, phone, gender
         let section2Labels = ["Email", "Phone", "Gender"]
-        var section2 = [EditProfileForModel]()
+        var section2 = [EditProfileFormModel]()
         for label in section2Labels {
-            let model = EditProfileForModel(
+            let model = EditProfileFormModel(
                 label: label,
                 placeholder: "Enter \(label)...",
                 value: nil)
@@ -114,25 +114,28 @@ final class EditProfileViewController: UIViewController, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let model = models[indexPath.section][indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = model.label
+        // Passing FormtableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: FormTableViewCell.identifier, for: indexPath) as! FormTableViewCell
+        cell.configure(with: model)
+        cell.delegate = self
         return cell
     }
     
-    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard section == 1 else {
             return nil
         }
         
         return "Private Information"
     }
-    
     // MARK: - Action
     
 
     
     @objc private func didTapSave() {
         // Save info to database
+        
+        dismiss(animated: true, completion: nil)
     }
     
     @objc private func didTapCancel() {
@@ -158,4 +161,13 @@ final class EditProfileViewController: UIViewController, UITableViewDataSource {
     }
     
 
+}
+
+extension EditProfileViewController: FormTableViewCellDelegate {
+    func formTableViewCell(_ cell: FormTableViewCell, didUpdateField updatedModel: EditProfileFormModel) {
+//        print("Field updated to: \(value ?? "nil")")
+        print(updatedModel.label)
+        print(updatedModel.value ?? "nil")
+        
+    }
 }
