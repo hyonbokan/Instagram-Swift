@@ -19,6 +19,7 @@ struct UserNotification {
 }
 
 final class NotificationsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.isHidden = false
@@ -116,15 +117,15 @@ final class NotificationsViewController: UIViewController, UITableViewDelegate, 
             // like cell
             let cell = tableView.dequeueReusableCell(withIdentifier: NotificationLikeEventTableViewCell.indentifier, for: indexPath) as! NotificationLikeEventTableViewCell
             // Configure passes the model to the cell. If disabled, the default values will be passed
-//            cell.configure(with: model)
+            cell.configure(with: model)
             cell.delegate = self
             return cell
             
         case .follow:
             // follow cell
             let cell = tableView.dequeueReusableCell(withIdentifier: NotificationFollowEventTableViewCell.indentifier, for: indexPath) as! NotificationFollowEventTableViewCell
-            //Configure passes the model to the cell
-//            cell.configure(with: model)
+            //Configure passes the model to the cell, if not the delegate func may not trigger
+            cell.configure(with: model)
             cell.delegate = self
             return cell
         }
@@ -139,12 +140,13 @@ final class NotificationsViewController: UIViewController, UITableViewDelegate, 
 
 extension NotificationsViewController: NotificationLikeEventTableViewCellDelegate {
     func didTapRelatedPostButton(model: UserNotification) {
-//        print("Tapped post")
+        print("Tapped post")
         switch model.type{
         case .like(let post):
             let vc = PostViewController(model: nil)
             vc.title = post.postType.rawValue
             vc.navigationItem.largeTitleDisplayMode = .never
+            navigationController?.pushViewController(vc, animated: true)
         case .follow(_):
             fatalError("Dev Issue: Should never be called")
         }

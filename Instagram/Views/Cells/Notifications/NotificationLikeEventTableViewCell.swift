@@ -52,7 +52,9 @@ class NotificationLikeEventTableViewCell: UITableViewCell {
     }
     
     @objc private func didTapPostButton() {
+        print("Print inside the LikeEvent")
         guard let model = model else { return }
+        print("guard let model = model passed")
         delegate?.didTapRelatedPostButton(model: model)
     }
     
@@ -77,12 +79,12 @@ class NotificationLikeEventTableViewCell: UITableViewCell {
         profileImageView.sd_setImage(with: model.user.profilePhoto, completed: nil)
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        postButton.setBackgroundImage(nil, for: .normal)
-        label.text = nil
-        profileImageView.image = nil
-    }
+//    override func prepareForReuse() {
+//        super.prepareForReuse()
+//        postButton.setBackgroundImage(nil, for: .normal)
+//        label.text = nil
+//        profileImageView.image = nil
+//    }
     
     override func layoutSubviews() {
         super.layoutSubviews()
