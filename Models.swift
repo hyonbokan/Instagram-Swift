@@ -27,8 +27,9 @@ struct User {
     let joinDate: Date
 }
 
-public enum UserPostType {
-    case photo, video
+public enum UserPostType: String {
+    case photo = "Photo"
+    case video = "Video"
 }
 
 /// Structure of user posts
