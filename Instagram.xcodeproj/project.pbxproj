@@ -89,7 +89,7 @@
 		BD26D5B42A8B7C14007B7F5B /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		BD26D5B62A8B7C3A007B7F5B /* PostEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostEditorViewController.swift; sourceTree = "<group>"; };
 		BD26D5B82A8B7C4A007B7F5B /* PublishPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishPostViewController.swift; sourceTree = "<group>"; };
-		BDCEB3D32A91BD69003DF76F /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = SOURCE_ROOT; };
+		BDCEB3D32A91BD69003DF76F /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Instagram/Models/Models.swift; sourceTree = SOURCE_ROOT; };
 		F1B2D48299DE1666F8E676A4 /* Pods-Instagram.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instagram.debug.xcconfig"; path = "Target Support Files/Pods-Instagram/Pods-Instagram.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -190,8 +190,8 @@
 		BD26D5812A8B7A76007B7F5B /* Instagram */ = {
 			isa = PBXGroup;
 			children = (
+				BD50F25D2A9B9A39003C99A3 /* Models */,
 				BD26D5992A8B7AA3007B7F5B /* Resources */,
-				BD26D5982A8B7A99007B7F5B /* Models */,
 				BD26D5972A8B7A8F007B7F5B /* Views */,
 				BD26D5962A8B7A84007B7F5B /* Controllers */,
 			);
@@ -217,14 +217,6 @@
 				9ED5F3C82A947AA100670ECD /* NoNotificationsView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		BD26D5982A8B7A99007B7F5B /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				BDCEB3D32A91BD69003DF76F /* Models.swift */,
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		BD26D5992A8B7AA3007B7F5B /* Resources */ = {
@@ -278,6 +270,14 @@
 				BD26D5A82A8B7BA7007B7F5B /* RegistrationViewController.swift */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		BD50F25D2A9B9A39003C99A3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BDCEB3D32A91BD69003DF76F /* Models.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		F582FE21A145A7BBE55E6857 /* Pods */ = {
