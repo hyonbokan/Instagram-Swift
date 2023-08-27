@@ -196,37 +196,37 @@ class LoginViewController: UIViewController {
         passwordFIeld.resignFirstResponder()
         usernameEmailField.resignFirstResponder()
         
-        guard let usernameEmail = usernameEmailField.text, !usernameEmail.isEmpty,
-              let password = passwordFIeld.text, !password.isEmpty, password.count >= 8 else {
-            return
-        }
-        
-        var username: String?
-        var email: String?
-        
-        // login functionality
-        if usernameEmail.contains("@"), usernameEmail.contains("."){
-            // email
-            email = usernameEmail
-        } else {
-            // username
-            username = usernameEmail
-        }
-        AuthManager.shared.loginUser(username: username, email: email, password: password) { success in
-            
-            DispatchQueue.main.async {
-                if success {
-                    // user logged in
-                    print("log in success")
-                    self.dismiss(animated: true, completion: nil)
-                } else {
-                    // error
-                    let alert = UIAlertController(title: "Log in Error", message: "Unable to log you in", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
-                    self.present(alert, animated: true)
-                }
-            }
-        }
+//        guard let usernameEmail = usernameEmailField.text, !usernameEmail.isEmpty,
+//              let password = passwordFIeld.text, !password.isEmpty, password.count >= 8 else {
+//            return
+//        }
+//        
+//        var username: String?
+//        var email: String?
+//        
+//        // login functionality
+//        if usernameEmail.contains("@"), usernameEmail.contains("."){
+//            // email
+//            email = usernameEmail
+//        } else {
+//            // username
+//            username = usernameEmail
+//        }
+//        AuthManager.shared.loginUser(username: username, email: email, password: password) { success in
+//            
+//            DispatchQueue.main.async {
+//                if success {
+//                    // user logged in
+//                    print("log in success")
+//                    self.dismiss(animated: true, completion: nil)
+//                } else {
+//                    // error
+//                    let alert = UIAlertController(title: "Log in Error", message: "Unable to log you in", preferredStyle: .alert)
+//                    alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+//                    self.present(alert, animated: true)
+//                }
+//            }
+//        }
     }
     
     @objc private func didTapTermsButton() {

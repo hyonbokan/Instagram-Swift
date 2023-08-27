@@ -101,24 +101,24 @@ class RegistrationViewController: UIViewController {
         usernameField.resignFirstResponder()
         passwordField.resignFirstResponder()
         
-        guard let email = emailField.text, !email.isEmpty,
-              let password = passwordField.text, !password.isEmpty, password.count >= 8,
-              let username = usernameField.text, !username.isEmpty else {
-            return
-        }
-        AuthManager.shared.registerNewUser(username: username, email: email, password: password) { registered in
-            if registered {
-                // Successful
-                print("success")
-                DispatchQueue.main.async {
-                    self.dismiss(animated: true)
-                }
-            } else {
-                print("fail")
-                // Fail
-                self.alert(title: "Error", message: "Unable to register the user.")
-            }
-        }
+//        guard let email = emailField.text, !email.isEmpty,
+//              let password = passwordField.text, !password.isEmpty, password.count >= 8,
+//              let username = usernameField.text, !username.isEmpty else {
+//            return
+//        }
+//        AuthManager.shared.registerNewUser(username: username, email: email, password: password) { registered in
+//            if registered {
+//                // Successful
+//                print("success")
+//                DispatchQueue.main.async {
+//                    self.dismiss(animated: true)
+//                }
+//            } else {
+//                print("fail")
+//                // Fail
+//                self.alert(title: "Error", message: "Unable to register the user.")
+//            }
+//        }
     }
     
     private func alert(title: String, message: String){
