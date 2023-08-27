@@ -52,9 +52,7 @@ class NotificationLikeEventTableViewCell: UITableViewCell {
     }
     
     @objc private func didTapPostButton() {
-        print("Print inside the LikeEvent")
         guard let model = model else { return }
-        print("guard let model = model passed")
         delegate?.didTapRelatedPostButton(model: model)
     }
     
