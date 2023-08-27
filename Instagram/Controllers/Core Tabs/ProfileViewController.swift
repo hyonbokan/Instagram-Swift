@@ -91,10 +91,29 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         
+
+        let user = User(username: "hyonbo",
+                        name: (first: "Hyonbo", last: "Kan"),
+                        profilePhoto: URL(string: "https://www.google.com")!,
+                        birthDate: Date(),
+                        gender: .male,
+                        counts: UserCount(followers: 1, following: 1, posts: 1), joinDate: Date())
+        
+        let post = UserPost(
+            identifier: "",
+            postType: .photo,
+            thumbnailImage: URL(string: "https://www.google.com")!,
+            postURL: URL(string: "https://www.google.com")!,
+            caption: nil,
+            likeCount: [],
+            comment: [],
+            createdDate: Date(),
+            taggedUsers: [],
+            owner: user)
         // get the model and open post controller
 //        let model = userPosts[indexPath.row]
-        let vc = PostViewController(model: nil)
-        vc.title = "Post"
+        let vc = PostViewController(model: post)
+        vc.title = post.postType.rawValue
         vc.navigationItem.largeTitleDisplayMode = .never
         // check the difference between nav.pushVC and present
         navigationController?.pushViewController(vc, animated: true)
@@ -175,7 +194,7 @@ extension ProfileViewController: ProfileInfoHeaderCollectionReusableViewDelegate
         let vc = EditProfileViewController()
         vc.title = "Edit Profile"
         present(UINavigationController(rootViewController: vc), animated: true)
-        // Edit Profile have its own 
+        // Edit Profile have its own
     }
     
     

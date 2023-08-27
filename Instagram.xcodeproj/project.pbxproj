@@ -46,6 +46,8 @@
 		BD26D5B92A8B7C4A007B7F5B /* PublishPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD26D5B82A8B7C4A007B7F5B /* PublishPostViewController.swift */; };
 		BD50F2612A9B9EF0003C99A3 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD50F2602A9B9EF0003C99A3 /* TabBarViewController.swift */; };
 		BDCEB3D42A91BD69003DF76F /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCEB3D32A91BD69003DF76F /* Models.swift */; };
+		BDD6A6ED2A9BA27800BCEA92 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD6A6EC2A9BA27800BCEA92 /* AnalyticsManager.swift */; };
+		BDD6A6F02A9BA2D700BCEA92 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD6A6EF2A9BA2D700BCEA92 /* HapticsManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +92,8 @@
 		BD26D5B82A8B7C4A007B7F5B /* PublishPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishPostViewController.swift; sourceTree = "<group>"; };
 		BD50F2602A9B9EF0003C99A3 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		BDCEB3D32A91BD69003DF76F /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Instagram/Models/Models.swift; sourceTree = SOURCE_ROOT; };
+		BDD6A6EC2A9BA27800BCEA92 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
+		BDD6A6EF2A9BA2D700BCEA92 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		F1B2D48299DE1666F8E676A4 /* Pods-Instagram.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instagram.debug.xcconfig"; path = "Target Support Files/Pods-Instagram/Pods-Instagram.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -190,6 +194,7 @@
 		BD26D5812A8B7A76007B7F5B /* Instagram */ = {
 			isa = PBXGroup;
 			children = (
+				BDD6A6EE2A9BA2C100BCEA92 /* Managers */,
 				BD50F25D2A9B9A39003C99A3 /* Models */,
 				BD26D5992A8B7AA3007B7F5B /* Resources */,
 				BD26D5972A8B7A8F007B7F5B /* Views */,
@@ -225,9 +230,6 @@
 				9ED5F3C42A94795A00670ECD /* GoogleService-Info.plist */,
 				BD26D5822A8B7A76007B7F5B /* AppDelegate.swift */,
 				BD26D5842A8B7A76007B7F5B /* SceneDelegate.swift */,
-				BD0E8C492A8BC1C0008729E2 /* DatabaseManager.swift */,
-				BD0E8C4D2A8BC274008729E2 /* StorageManager.swift */,
-				BD0E8C4B2A8BC254008729E2 /* AuthManager.swift */,
 				9E1970EC2A8C7CB400EEFB14 /* Extensions.swift */,
 			);
 			path = Resources;
@@ -278,6 +280,18 @@
 				BDCEB3D32A91BD69003DF76F /* Models.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		BDD6A6EE2A9BA2C100BCEA92 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				BD0E8C492A8BC1C0008729E2 /* DatabaseManager.swift */,
+				BD0E8C4D2A8BC274008729E2 /* StorageManager.swift */,
+				BD0E8C4B2A8BC254008729E2 /* AuthManager.swift */,
+				BDD6A6EC2A9BA27800BCEA92 /* AnalyticsManager.swift */,
+				BDD6A6EF2A9BA2D700BCEA92 /* HapticsManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		F582FE21A145A7BBE55E6857 /* Pods */ = {
@@ -404,6 +418,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BDD6A6ED2A9BA27800BCEA92 /* AnalyticsManager.swift in Sources */,
 				BD26D5AD2A8B7BE5007B7F5B /* EditProfileViewController.swift in Sources */,
 				BD26D59C2A8B7B24007B7F5B /* ExploreViewController.swift in Sources */,
 				BD26D5B92A8B7C4A007B7F5B /* PublishPostViewController.swift in Sources */,
@@ -413,6 +428,7 @@
 				9ECBED5C2A8F5436006460C9 /* IGFeedPostHeaderTableViewCell.swift in Sources */,
 				9ED5F3C92A947AA100670ECD /* NoNotificationsView.swift in Sources */,
 				9ED5F3CC2A947DC800670ECD /* NotificationFollowEventTableViewCell.swift in Sources */,
+				BDD6A6F02A9BA2D700BCEA92 /* HapticsManager.swift in Sources */,
 				BD26D5B72A8B7C3A007B7F5B /* PostEditorViewController.swift in Sources */,
 				BD0E8C4E2A8BC274008729E2 /* StorageManager.swift in Sources */,
 				9E0452CB2A933094003858DB /* UserFollowTableViewCell.swift in Sources */,
