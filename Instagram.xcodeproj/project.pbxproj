@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		9E0452CB2A933094003858DB /* UserFollowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E0452CA2A933094003858DB /* UserFollowTableViewCell.swift */; };
 		9E1970ED2A8C7CB400EEFB14 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1970EC2A8C7CB400EEFB14 /* Extensions.swift */; };
+		9EB02EB32A9C62B7004D00AB /* SignInHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB02EB22A9C62B7004D00AB /* SignInHeaderView.swift */; };
+		9EB02EB52A9C6384004D00AB /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB02EB42A9C6384004D00AB /* SignInViewController.swift */; };
+		9EB02EB72A9C73CA004D00AB /* IGTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB02EB62A9C73CA004D00AB /* IGTextField.swift */; };
+		9EB02EB92A9C81DC004D00AB /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB02EB82A9C81DC004D00AB /* SignUpViewController.swift */; };
 		9ECBED592A8F52B7006460C9 /* IGFeedPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ECBED582A8F52B7006460C9 /* IGFeedPostTableViewCell.swift */; };
 		9ECBED5C2A8F5436006460C9 /* IGFeedPostHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ECBED5B2A8F5436006460C9 /* IGFeedPostHeaderTableViewCell.swift */; };
 		9ECBED5E2A8F544D006460C9 /* IGFeedPostActionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ECBED5D2A8F544D006460C9 /* IGFeedPostActionsTableViewCell.swift */; };
@@ -55,6 +59,10 @@
 		557A86B546ADBD5E189D4FEC /* Pods_Instagram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Instagram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E0452CA2A933094003858DB /* UserFollowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFollowTableViewCell.swift; sourceTree = "<group>"; };
 		9E1970EC2A8C7CB400EEFB14 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		9EB02EB22A9C62B7004D00AB /* SignInHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInHeaderView.swift; sourceTree = "<group>"; };
+		9EB02EB42A9C6384004D00AB /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		9EB02EB62A9C73CA004D00AB /* IGTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGTextField.swift; sourceTree = "<group>"; };
+		9EB02EB82A9C81DC004D00AB /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		9ECBED582A8F52B7006460C9 /* IGFeedPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGFeedPostTableViewCell.swift; sourceTree = "<group>"; };
 		9ECBED5B2A8F5436006460C9 /* IGFeedPostHeaderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGFeedPostHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		9ECBED5D2A8F544D006460C9 /* IGFeedPostActionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGFeedPostActionsTableViewCell.swift; sourceTree = "<group>"; };
@@ -217,9 +225,11 @@
 			children = (
 				BD0991132A90DDA8001DCE05 /* CollectionView Headers */,
 				9ECBED572A8F5285006460C9 /* Cells */,
-				BD26D59A2A8B7AD4007B7F5B /* Storyboards */,
 				BD26D58B2A8B7A77007B7F5B /* Assets.xcassets */,
 				9ED5F3C82A947AA100670ECD /* NoNotificationsView.swift */,
+				9EB02EB22A9C62B7004D00AB /* SignInHeaderView.swift */,
+				9EB02EB62A9C73CA004D00AB /* IGTextField.swift */,
+				BD26D58D2A8B7A77007B7F5B /* LaunchScreen.storyboard */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -233,14 +243,6 @@
 				9E1970EC2A8C7CB400EEFB14 /* Extensions.swift */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		BD26D59A2A8B7AD4007B7F5B /* Storyboards */ = {
-			isa = PBXGroup;
-			children = (
-				BD26D58D2A8B7A77007B7F5B /* LaunchScreen.storyboard */,
-			);
-			path = Storyboards;
 			sourceTree = "<group>";
 		};
 		BD26D5A32A8B7B6C007B7F5B /* Core Tabs */ = {
@@ -270,6 +272,8 @@
 			children = (
 				BD26D5A62A8B7BA1007B7F5B /* LoginViewController.swift */,
 				BD26D5A82A8B7BA7007B7F5B /* RegistrationViewController.swift */,
+				9EB02EB42A9C6384004D00AB /* SignInViewController.swift */,
+				9EB02EB82A9C81DC004D00AB /* SignUpViewController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -423,8 +427,10 @@
 				BD26D59C2A8B7B24007B7F5B /* ExploreViewController.swift in Sources */,
 				BD26D5B92A8B7C4A007B7F5B /* PublishPostViewController.swift in Sources */,
 				BD26D5872A8B7A76007B7F5B /* HomeViewController.swift in Sources */,
+				9EB02EB52A9C6384004D00AB /* SignInViewController.swift in Sources */,
 				BD26D5832A8B7A76007B7F5B /* AppDelegate.swift in Sources */,
 				BD26D5A92A8B7BA7007B7F5B /* RegistrationViewController.swift in Sources */,
+				9EB02EB92A9C81DC004D00AB /* SignUpViewController.swift in Sources */,
 				9ECBED5C2A8F5436006460C9 /* IGFeedPostHeaderTableViewCell.swift in Sources */,
 				9ED5F3C92A947AA100670ECD /* NoNotificationsView.swift in Sources */,
 				9ED5F3CC2A947DC800670ECD /* NotificationFollowEventTableViewCell.swift in Sources */,
@@ -437,6 +443,7 @@
 				BD26D5AB2A8B7BBD007B7F5B /* PostViewController.swift in Sources */,
 				BD0991192A90DE71001DCE05 /* ProfileTabsCollectionReusableView.swift in Sources */,
 				BD0E8C4A2A8BC1C0008729E2 /* DatabaseManager.swift in Sources */,
+				9EB02EB32A9C62B7004D00AB /* SignInHeaderView.swift in Sources */,
 				BD26D5A02A8B7B4E007B7F5B /* NotificationsViewController.swift in Sources */,
 				BD50F2612A9B9EF0003C99A3 /* TabBarViewController.swift in Sources */,
 				9ECBED592A8F52B7006460C9 /* IGFeedPostTableViewCell.swift in Sources */,
@@ -445,6 +452,7 @@
 				BD26D5A72A8B7BA1007B7F5B /* LoginViewController.swift in Sources */,
 				9E1970ED2A8C7CB400EEFB14 /* Extensions.swift in Sources */,
 				9ECBED602A8F5467006460C9 /* IGFeedPostGeneralTableViewCell.swift in Sources */,
+				9EB02EB72A9C73CA004D00AB /* IGTextField.swift in Sources */,
 				9ED5F3CE2A947DE300670ECD /* NotificationLikeEventTableViewCell.swift in Sources */,
 				BD26D5B32A8B7C0A007B7F5B /* SearchViewController.swift in Sources */,
 				BD0991172A90DE3D001DCE05 /* ProfileInfoHeaderCollectionReusableView.swift in Sources */,
