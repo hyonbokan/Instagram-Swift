@@ -68,7 +68,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Sign In"
+//        title = "Sign In"
         view.backgroundColor = .systemBackground
         headerView.backgroundColor = .red
         addSubviews()
@@ -80,11 +80,12 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
         headerView.frame = CGRect(
             x: 0,
-            y: view.safeAreaInsets.top,
+            y: 0.0,
             width: view.width,
-            height: (view.height - view.safeAreaInsets.top)/3
+            height: view.height/3.0
         )
         
         emailField.frame = CGRect(
@@ -142,7 +143,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
     private func addButtonActions() {
         signInButton.addTarget(self, action: #selector(didTapSignIn), for: .touchUpInside)
         termsButton.addTarget(self, action: #selector(didTapTerms), for: .touchUpInside)
-        signInButton.addTarget(self, action: #selector(didTapPrivacy), for: .touchUpInside)
+        privacyButton.addTarget(self, action: #selector(didTapPrivacy), for: .touchUpInside)
         createAccountButton.addTarget(self, action: #selector(didTapCreateAccount), for: .touchUpInside)
     }
     
@@ -167,6 +168,8 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
 //        vc.completion = {
 //            
 //        }
+        print("create account")
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func didTapTerms() {
