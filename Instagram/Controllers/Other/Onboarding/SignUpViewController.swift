@@ -7,13 +7,13 @@
 import SafariServices
 import UIKit
 
-class SignUpViewController: UIViewController, UITextFieldDelegate {
+class SignUpViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     // Subviews
     
     private let profilePictureImageView: UIImageView = {
        let imageView = UIImageView()
-        imageView.tintColor = .label
+        imageView.tintColor = .lightGray
         imageView.image = UIImage(systemName: "person.circle")
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
@@ -51,7 +51,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     private let signUpButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Sign In", for: .normal)
+        button.setTitle("Sign Up", for: .normal)
         button.backgroundColor = .systemGreen
         button.layer.cornerRadius = 8
         button.layer.masksToBounds = true
@@ -84,6 +84,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         emailField.delegate = self
         passwordField.delegate = self
         
+        addImageGesture()
         addButtonActions()
     }
     
@@ -109,7 +110,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         
         emailField.frame = CGRect(
             x: 25,
-            y: usernameField.bottom+20,
+            y: usernameField.bottom+10,
             width: view.width-50,
             height: 50
         )
@@ -153,6 +154,13 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         view.addSubview(privacyButton)
     }
     
+    private func addImageGesture() {
+        print("Profile image tapped")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapImage))
+        profilePictureImageView.isUserInteractionEnabled = true
+        profilePictureImageView.addGestureRecognizer(tap)
+    }
+    
     private func addButtonActions() {
         signUpButton.addTarget(self, action: #selector(didTapSignUp), for: .touchUpInside)
         termsButton.addTarget(self, action: #selector(didTapTerms), for: .touchUpInside)
@@ -160,20 +168,61 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     }
     
     // MARK: Actions
+    
+    @objc func didTapImage() {
+        let sheet = UIAlertController(title: "Profile Picture", message: "Set a picture to help your friends find you.", preferredStyle: .actionSheet)
+        
+        sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        sheet.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { [weak self] _ in
+            DispatchQueue.main.async {
+                let picker = UIImagePickerController()
+                picker.allowsEditing = true
+                picker.sourceType = .camera
+                picker.delegate = self
+                self?.present(picker, animated: true)
+            }
+            
+        }))
+        sheet.addAction(UIAlertAction(title: "Choose Photo", style: .default, handler: {[weak self] _ in
+            DispatchQueue.main.async {
+                let picker = UIImagePickerController()
+                picker.allowsEditing = true
+                picker.sourceType = .photoLibrary
+                picker.delegate = self
+                self?.present(picker, animated: true)
+            }
+        }))
+        present(sheet, animated: true)
+    }
+    
     @objc func didTapSignUp() {
         usernameField.resignFirstResponder()
         emailField.resignFirstResponder()
         passwordField.resignFirstResponder()
+        // Also add regex for email validation
         guard
+            let username = usernameField.text,
             let email = emailField.text,
             let password = passwordField.text,
+            !username.trimmingCharacters(in: .whitespaces).isEmpty,
             !email.trimmingCharacters(in: .whitespaces).isEmpty,
-            !password.isEmpty,
-            password.count >= 6 else {
+            !password.trimmingCharacters(in: .whitespaces).isEmpty,
+            password.count >= 6,
+            username.count > 2,
+            username.trimmingCharacters(in: .alphanumerics).isEmpty
+        else {
+            // Ideally, it should be broken into multiple guard statements so it is clear to user where exactly the problem is.
+            presentError(title: "Sorry", message: "Please be sure all the fields are filled, and username and password must be longer than 2 and 6 characters respectively")
             return
         }
         
         // Sign in with authManager
+    }
+    
+    private func presentError(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
+        present(alert, animated: true)
     }
     
     
@@ -203,5 +252,19 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             didTapSignUp()
         }
         return true
+    }
+    
+    // Image Picker
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
+            return
+        }
+        profilePictureImageView.image = image
     }
 }
