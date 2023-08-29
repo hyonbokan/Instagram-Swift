@@ -17,7 +17,7 @@ struct UserCount {
     let posts: Int
 }
 
-struct User {
+struct UserOld {
     let username: String
     let name: (first: String, last: String)
     let profilePhoto: URL
@@ -43,7 +43,7 @@ public struct UserPost {
     let comment: [PostComment]
     let createdDate: Date
     let taggedUsers: [String]
-    let owner: User
+    let owner: UserOld
 }
 
 struct PostLike {

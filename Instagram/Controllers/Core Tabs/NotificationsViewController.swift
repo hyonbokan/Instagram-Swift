@@ -15,7 +15,7 @@ enum UserNotificationType {
 struct UserNotification {
     let type: UserNotificationType
     let text: String
-    let user: User
+    let user: UserOld
 }
 
 final class NotificationsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -73,7 +73,7 @@ final class NotificationsViewController: UIViewController, UITableViewDelegate, 
     
     private func fetchNotifications() {
         for x in 0...100 {
-            let user = User(username: "hyonbo",
+            let user = UserOld(username: "hyonbo",
                             name: (first: "Hyonbo", last: "Kan"),
                             profilePhoto: URL(string: "https://www.google.com")!,
                             birthDate: Date(),

@@ -58,7 +58,7 @@ class IGFeedPostHeaderTableViewCell: UITableViewCell {
         delegate?.didTapMoreButton()
     }
     
-    public func configure(with model: User) {
+    public func configure(with model: UserOld) {
         usernameLabel.text = model.username
         profilePhotoImageView.image = UIImage(systemName: "person.circle")
 //        profilePhotoImageView.sd_setImage(with: model.profilePhoto, completed: nil)

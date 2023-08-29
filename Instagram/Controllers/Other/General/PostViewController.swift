@@ -13,7 +13,7 @@
 import UIKit
 /// States of a rendered cell
 enum PostRenderType {
-    case header(provider: User)
+    case header(provider: UserOld)
     case primaryContent(provider: UserPost) //post
     case actions(prvider: String) // like, comment, share
     case comments(comments: [PostComment])
