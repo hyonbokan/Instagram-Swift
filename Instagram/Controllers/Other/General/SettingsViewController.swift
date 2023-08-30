@@ -6,12 +6,14 @@
 //
 import SafariServices
 import UIKit
+
 struct SettingCellModel {
     let title: String
     let handler: (() -> Void)
 }
 /// View Controller to show user settings
 final class SettingsViewController: UIViewController {
+    
     private let tableView: UITableView = {
         let tableView = UITableView(
             frame: .zero,
@@ -28,12 +30,17 @@ final class SettingsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(didTapClose))
         configureModels()
         view.backgroundColor = .systemBackground
         view.addSubview(tableView)
         title = "Settings"
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    @objc func didTapClose() {
+        dismiss(animated: true, completion: nil)
     }
     
     override func viewDidLayoutSubviews() {
@@ -71,8 +78,8 @@ final class SettingsViewController: UIViewController {
         ])
         
         data.append([
-            SettingCellModel(title: "Log Out") { [weak self] in
-                self?.didTapLogOut()
+            SettingCellModel(title: "Sign Out") { [weak self] in
+                self?.didTapSignOut()
             }
         ])
     }
@@ -115,27 +122,18 @@ final class SettingsViewController: UIViewController {
         
     }
     
-    private func didTapLogOut() {
-        let actionSheet = UIAlertController(title: "Log Out", message: "Are you sure you want to log out?", preferredStyle: .actionSheet)
+    private func didTapSignOut() {
+        let actionSheet = UIAlertController(title: "Sign Out", message: "Are you sure you want to log out?", preferredStyle: .actionSheet)
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-//        actionSheet.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { _ in
-//            AuthManager.shared.logOut(completion: { success in
-//                if success {
-//                    // present log in
-//                    DispatchQueue.main.async {
-//                        let loginVC = LoginViewController()
-//                        loginVC.modalPresentationStyle = .fullScreen
-//                        self.present(loginVC, animated: true) {
-//                            self.navigationController?.popToRootViewController(animated: false)
-//                            self.tabBarController?.selectedIndex = 0
-//                        }
-//                    }
-//                } else {
-//                    // error
-//                    fatalError("Could not log out user.")
-//                }
-//            })
-//        }))
+        actionSheet.addAction(UIAlertAction(title: "Sign Out", style: .destructive, handler: { [weak self] _ in
+            AuthManager.shared.signOut { success in
+                if success {
+                    DispatchQueue.main.async {
+                        self?.didTapClose()
+                    }
+                }
+            }
+        }))
         // popverPressentationControllect for iPad
         actionSheet.popoverPresentationController?.sourceView = tableView
         actionSheet.popoverPresentationController?.sourceRect = tableView.bounds
