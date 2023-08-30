@@ -36,17 +36,6 @@ class ProfileViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        showSignedOutUIIfNeeded()
-    }
-    
-    private func showSignedOutUIIfNeeded() {
-        guard !AuthManager.shared.isSignedIn else { return }
-        
-        // Show signed out UI
-        let vc = SignInViewController()
-        let navVC = UINavigationController(rootViewController: vc)
-        navVC.modalPresentationStyle = .fullScreen
-        present(navVC, animated: true)
     }
     
     func configure() {

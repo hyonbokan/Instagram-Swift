@@ -129,7 +129,10 @@ final class SettingsViewController: UIViewController {
             AuthManager.shared.signOut { success in
                 if success {
                     DispatchQueue.main.async {
-                        self?.didTapClose()
+                        let vc = SignInViewController()
+                        let navVC = UINavigationController(rootViewController: vc)
+                        navVC.modalPresentationStyle = .fullScreen
+                        self?.present(navVC, animated: true)
                     }
                 }
             }
