@@ -56,6 +56,7 @@
 		BDCEB3D42A91BD69003DF76F /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCEB3D32A91BD69003DF76F /* Models.swift */; };
 		BDD6A6ED2A9BA27800BCEA92 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD6A6EC2A9BA27800BCEA92 /* AnalyticsManager.swift */; };
 		BDD6A6F02A9BA2D700BCEA92 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD6A6EF2A9BA2D700BCEA92 /* HapticsManager.swift */; };
+		BDDDCA452AA0CFAF004AB7FA /* NewHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDDDCA442AA0CFAF004AB7FA /* NewHomeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -110,6 +111,7 @@
 		BDCEB3D32A91BD69003DF76F /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Instagram/Models/Models.swift; sourceTree = SOURCE_ROOT; };
 		BDD6A6EC2A9BA27800BCEA92 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 		BDD6A6EF2A9BA2D700BCEA92 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
+		BDDDCA442AA0CFAF004AB7FA /* NewHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHomeViewController.swift; sourceTree = "<group>"; };
 		F1B2D48299DE1666F8E676A4 /* Pods-Instagram.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instagram.debug.xcconfig"; path = "Target Support Files/Pods-Instagram/Pods-Instagram.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -210,6 +212,7 @@
 		BD26D5812A8B7A76007B7F5B /* Instagram */ = {
 			isa = PBXGroup;
 			children = (
+				BDDDCA462AA0D2A2004AB7FA /* Lagacy */,
 				BDD6A6EE2A9BA2C100BCEA92 /* Managers */,
 				BD50F25D2A9B9A39003C99A3 /* Models */,
 				BD26D5992A8B7AA3007B7F5B /* Resources */,
@@ -256,13 +259,12 @@
 		BD26D5A32A8B7B6C007B7F5B /* Core Tabs */ = {
 			isa = PBXGroup;
 			children = (
-				BD26D5862A8B7A76007B7F5B /* HomeViewController.swift */,
 				BD26D59B2A8B7B24007B7F5B /* ExploreViewController.swift */,
 				BD26D59D2A8B7B32007B7F5B /* CameraViewController.swift */,
 				BD26D59F2A8B7B4E007B7F5B /* NotificationsViewController.swift */,
-				BD26D5A12A8B7B56007B7F5B /* ProfileViewControllerOld.swift */,
 				BD50F2602A9B9EF0003C99A3 /* TabBarViewController.swift */,
 				BD2E70BE2A9F389E00B26BB7 /* ProfileViewController.swift */,
+				BDDDCA442AA0CFAF004AB7FA /* NewHomeViewController.swift */,
 			);
 			path = "Core Tabs";
 			sourceTree = "<group>";
@@ -299,8 +301,6 @@
 		BDD6A6EE2A9BA2C100BCEA92 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				BD0E8C492A8BC1C0008729E2 /* DatabaseManagerOld.swift */,
-				BD0E8C4D2A8BC274008729E2 /* StorageManagerOld.swift */,
 				BD0E8C4B2A8BC254008729E2 /* AuthManager.swift */,
 				BDD6A6EC2A9BA27800BCEA92 /* AnalyticsManager.swift */,
 				BDD6A6EF2A9BA2D700BCEA92 /* HapticsManager.swift */,
@@ -308,6 +308,17 @@
 				BDBCADEA2A9E1F01009388D3 /* StorageManager.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		BDDDCA462AA0D2A2004AB7FA /* Lagacy */ = {
+			isa = PBXGroup;
+			children = (
+				BD0E8C492A8BC1C0008729E2 /* DatabaseManagerOld.swift */,
+				BD0E8C4D2A8BC274008729E2 /* StorageManagerOld.swift */,
+				BD26D5862A8B7A76007B7F5B /* HomeViewController.swift */,
+				BD26D5A12A8B7B56007B7F5B /* ProfileViewControllerOld.swift */,
+			);
+			path = Lagacy;
 			sourceTree = "<group>";
 		};
 		F582FE21A145A7BBE55E6857 /* Pods */ = {
@@ -438,6 +449,7 @@
 				BDBCADE72A9E137F009388D3 /* DatabaseManager.swift in Sources */,
 				BD26D5AD2A8B7BE5007B7F5B /* EditProfileViewController.swift in Sources */,
 				BD26D59C2A8B7B24007B7F5B /* ExploreViewController.swift in Sources */,
+				BDDDCA452AA0CFAF004AB7FA /* NewHomeViewController.swift in Sources */,
 				BD26D5B92A8B7C4A007B7F5B /* PublishPostViewController.swift in Sources */,
 				BD26D5872A8B7A76007B7F5B /* HomeViewController.swift in Sources */,
 				9EB02EB52A9C6384004D00AB /* SignInViewController.swift in Sources */,

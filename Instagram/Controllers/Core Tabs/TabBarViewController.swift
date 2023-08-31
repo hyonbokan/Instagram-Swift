@@ -23,7 +23,7 @@ class TabBarViewController: UITabBarController {
         )
         
         // Define VCs
-        let home = HomeViewController()
+        let home = NewHomeViewController()
         let explore = ExploreViewController()
         let camera = CameraViewController()
         let activity = NotificationsViewController()
