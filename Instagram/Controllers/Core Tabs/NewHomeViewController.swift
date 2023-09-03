@@ -50,7 +50,7 @@ class NewHomeViewController: UIViewController {
             ),
             .caption(viewModel: PostCaptionCollectionViewCellViewModel(
                 username: "hyonbo",
-                caption: "Caption test"
+                caption: "Caption test, Caption test"
                 )
             ),
             .timestamp(viewModel: PostDateTimeCollectionViewCellViewModel(
@@ -163,15 +163,6 @@ class NewHomeViewController: UIViewController {
         )
         self.collectionView = collectionView
     }
-    
-    let colors: [UIColor] = [
-        .red,
-        .green,
-        .blue,
-        .orange,
-        .cyan,
-        .brown
-    ]
 
 }
 
@@ -199,6 +190,7 @@ extension NewHomeViewController: UICollectionViewDelegate, UICollectionViewDataS
             ) as? PosterCollectionViewCell else {
                 fatalError()
             }
+            cell.delegate = self
             cell.configure(with: viewModel)
             return cell
             
@@ -209,8 +201,9 @@ extension NewHomeViewController: UICollectionViewDelegate, UICollectionViewDataS
              ) as? PostCollectionViewCell else {
                  fatalError()
              }
-             cell.configure(with: viewModel)
-             return cell
+            cell.delegate = self
+            cell.configure(with: viewModel)
+            return cell
             
         case .actions(let viewModel):
             guard let cell = collectionView.dequeueReusableCell(
@@ -219,9 +212,9 @@ extension NewHomeViewController: UICollectionViewDelegate, UICollectionViewDataS
              ) as? PostActionsCollectionViewCell else {
                  fatalError()
              }
-             cell.configure(with: viewModel)
-             cell.contentView.backgroundColor = colors[indexPath.row]
-             return cell
+            cell.delegate = self
+            cell.configure(with: viewModel)
+            return cell
             
         case .likeCount(let viewModel):
             guard let cell = collectionView.dequeueReusableCell(
@@ -230,9 +223,9 @@ extension NewHomeViewController: UICollectionViewDelegate, UICollectionViewDataS
              ) as? PostLikesCollectionViewCell else {
                  fatalError()
              }
-             cell.configure(with: viewModel)
-             cell.contentView.backgroundColor = colors[indexPath.row]
-             return cell
+            cell.delegate = self
+            cell.configure(with: viewModel)
+            return cell
             
         case .caption(let viewModel):
             guard let cell = collectionView.dequeueReusableCell(
@@ -241,9 +234,9 @@ extension NewHomeViewController: UICollectionViewDelegate, UICollectionViewDataS
              ) as? PostCaptionCollectionViewCell else {
                  fatalError()
              }
-             cell.configure(with: viewModel)
-             cell.contentView.backgroundColor = colors[indexPath.row]
-             return cell
+            cell.delegate = self
+            cell.configure(with: viewModel)
+            return cell
             
         case .timestamp(let viewModel):
             guard let cell = collectionView.dequeueReusableCell(
@@ -253,13 +246,64 @@ extension NewHomeViewController: UICollectionViewDelegate, UICollectionViewDataS
                  fatalError()
              }
              cell.configure(with: viewModel)
-             cell.contentView.backgroundColor = colors[indexPath.row]
              return cell
         }
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-//        cell.contentView.backgroundColor = colors.randomElement()
-//        return cell
+    }
+}
+
+extension NewHomeViewController: PosterCollectionViewCellDelegate {
+    func posterCollectionViewCellDidTapMore(_ cell: PosterCollectionViewCell) {
+        let sheet = UIAlertController(title: "Post Actions", message: nil, preferredStyle: .actionSheet)
+        sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        sheet.addAction(UIAlertAction(title: "Share Post", style: .default, handler: { _ in
+            
+        }))
+        sheet.addAction(UIAlertAction(title: "Report Post", style: .destructive, handler: { _ in
+            
+        }))
+        
+        present(sheet, animated: true)
     }
     
+    func posterCollectionViewCellDidTapUsername(_ cell: PosterCollectionViewCell) {
+        let vc = ProfileViewController(user: User(username: "hyonbo", email: "hyonbo@gmail.com"))
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension NewHomeViewController: PostCollectionViewCellDelegate {
+    func postCollectionViewCellDidLike(_ cell: PostCollectionViewCell) {
+        print("did tap to like")
+    }
+}
+
+extension NewHomeViewController: PostActionsCollectionViewCellDelegate {
+    func postActionsCollectionViewCellDidTapLike(_ cell: PostActionsCollectionViewCell, isLiked: Bool) {
+        // call DB to update like state
+    }
     
+    func postActionsCollectionViewCellDidTapComment(_ cell: PostActionsCollectionViewCell) {
+        let vc = PostViewController(model: UserPost(identifier: "test", postType: .photo, thumbnailImage: URL(string: "https://github.githubassets.com/images/modules/profile/achievements/pull-shark-default.png")!, postURL:URL(string: "https://github.githubassets.com/images/modules/profile/achievements/pull-shark-default.png")!, caption: "Testing", likeCount: [], comment: [], createdDate: Date(), taggedUsers: [], owner: UserOld(username: "hyonbo", name: ("hyonbo", "kan"), profilePhoto: URL(string: "https://github.githubassets.com/images/modules/profile/achievements/pull-shark-default.png")!, birthDate: Date(), gender: .male, counts: UserCount(followers: 0, following: 0, posts: 0), joinDate: Date())))
+        vc.title = "Comments"
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func postActionsCollectionViewCellDidTapShare(_ cell: PostActionsCollectionViewCell) {
+        let vc = UIActivityViewController(activityItems: ["Sharing from Instagram"], applicationActivities: [])
+        present(vc, animated: true)
+    }
+}
+
+extension NewHomeViewController: PostLikesCollectionViewCellDelegate {
+    func postLikesCollectionViewCellDidTapLikeCount(_ cell: PostLikesCollectionViewCell) {
+        let vc = ListViewController(data: [UserRelationship(username: "Test", name: "Test", type: .following)])
+        vc.title = "Liked By"
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension NewHomeViewController: PostCaptionCollectionViewCellDelegate {
+    func postCaptionCollectionViewCellDidTapCaption(_ cell: PostCaptionCollectionViewCell) {
+        print("Caption Tapped")
+    }
 }

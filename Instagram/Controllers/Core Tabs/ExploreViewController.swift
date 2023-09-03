@@ -74,7 +74,7 @@ class ExploreViewController: UIViewController {
         layout.minimumInteritemSpacing = 1
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView?.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: PhotoCollectionViewCell.identifier)
+        collectionView?.register(OldPhotoCollectionViewCell.self, forCellWithReuseIdentifier: OldPhotoCollectionViewCell.identifier)
         collectionView?.delegate = self
         collectionView?.dataSource = self
         guard let collectionView = collectionView else { return }
@@ -162,7 +162,7 @@ extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataS
         if collectionView == tabbedSearchCollectionView {
             return UICollectionViewCell()
         }
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.identifier, for: indexPath) as? PhotoCollectionViewCell else { return UICollectionViewCell()
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OldPhotoCollectionViewCell.identifier, for: indexPath) as? OldPhotoCollectionViewCell else { return UICollectionViewCell()
            
        }
         cell.configure(debug: "test") // debug - for testing purposes

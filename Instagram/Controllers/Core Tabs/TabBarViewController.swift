@@ -41,6 +41,7 @@ class TabBarViewController: UITabBarController {
         nav4.navigationBar.tintColor = .label
         nav5.navigationBar.tintColor = .label
         
+        
         // Define tab items
         nav1.tabBarItem = UITabBarItem(
             title: nil,

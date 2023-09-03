@@ -34,7 +34,7 @@ class ProfileViewControllerOld: UIViewController {
         
         //Register Profile header and tabs
         // Cell
-        collectionView?.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: PhotoCollectionViewCell.identifier)
+        collectionView?.register(PhotoCollectionViewCell.self, forCellWithReuseIdentifier: OldPhotoCollectionViewCell.identifier)
         // Headers per section
         collectionView?.register(ProfileInfoHeaderCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ProfileInfoHeaderCollectionReusableView.identifier)
         
@@ -81,7 +81,7 @@ extension ProfileViewControllerOld: UICollectionViewDelegate, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 //        let model = userPosts[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoCollectionViewCell.identifier, for: indexPath) as! PhotoCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OldPhotoCollectionViewCell.identifier, for: indexPath) as! OldPhotoCollectionViewCell
 //        cell.configure(with: model)
         cell.configure(debug: "test")
         return cell

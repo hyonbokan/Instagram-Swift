@@ -1,56 +1,44 @@
 //
-//  PhotoCollectionViewCell.swift
+//  PhotoCollectionViewCell2.swift
 //  Instagram
 //
-//  Created by Michael Kan on 2023/08/19.
+//  Created by Michael Kan on 2023/09/03.
 //
-import SDWebImage
+
 import UIKit
 
 class PhotoCollectionViewCell: UICollectionViewCell {
     static let identifier = "PhotoCollectionViewCell"
     
-    private let photoImageView: UIImageView = {
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFill
+        imageView.tintColor = .label
         return imageView
     }()
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        photoImageView.frame = contentView.bounds
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        photoImageView.image = nil
-    }
-    
-    // Check the function of this override
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .secondarySystemBackground
-        contentView.addSubview(photoImageView)
-        contentView.clipsToBounds = true
-        accessibilityLabel = "User post image"
-        accessibilityHint = "Double-tap to open post"
+        contentView.addSubview(imageView)
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func configure(with model: UserPost){
-//        let thumbnailURL = model.thumbnailImage
-//        let task = URLSession.shared.dataTask(with: thumbnailURL, completionHandler: { data, _, _ in
-//            photoImageView.image = UIImage(data: data!)
-//        })
-        let url = model.thumbnailImage
-        photoImageView.sd_setImage(with: url, completed: nil)
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        imageView.frame = contentView.bounds
+        
     }
     
-    public func configure(debug imageName: String){
-        photoImageView.image = UIImage(named: imageName)
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.image = nil
+    }
+    
+    func configure(with image: UIImage?) {
+        imageView.image = image
     }
 }
