@@ -75,8 +75,9 @@ class PostEditViewController: UIViewController {
     }
     
     @objc private func didTapNext() {
-        let vc = CaptionViewController(image: image)
-        vc.title = " Add Caption"
+        guard let currentImage = imageView.image else { return }
+        let vc = CaptionViewController(image: currentImage)
+        vc.title = "Add Caption"
         navigationController?.pushViewController(vc, animated: true)
     }
     
