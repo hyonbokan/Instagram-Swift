@@ -52,7 +52,7 @@ final class DatabaseManager {
             completion(false)
             return
         }
-        let reference = database.document("users/\(username)/post/\(newPost.id)")
+        let reference = database.document("users/\(username)/posts/\(newPost.id)")
         guard let data = newPost.asDictionary() else {
             completion(false)
             return

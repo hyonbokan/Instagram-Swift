@@ -21,7 +21,7 @@ final class StorageManager {
         guard let username = UserDefaults.standard.string(forKey: "username"), let data = data else { return
             
         }
-        storage.child("\(username)/post/\(id)profile_picture.png").putData(data, metadata: nil) {
+        storage.child("\(username)/posts/\(id).png").putData(data, metadata: nil) {
             _, error in
             completion(error == nil)
         }
@@ -32,11 +32,22 @@ final class StorageManager {
             completion(nil)
             return
         }
-        
-        storage.child(ref).downloadURL { url, _ in
+        storage.child(ref).downloadURL { url, error in
+            if url != nil {
+                completion(url)
+            } else {
+                print(error as Any)
+            }
+
+        }
+    }
+    
+    public func profilePictureURL(for username: String, completion: @escaping (URL?) -> Void) {
+        storage.child("\(username)/profile_picture.png").downloadURL { url, _ in
             completion(url)
         }
     }
+    
     
     private let storage = Storage.storage().reference()
     

@@ -31,11 +31,32 @@ class NewHomeViewController: UIViewController {
         guard let username = UserDefaults.standard.string(forKey: "username") else {
             return
         }
-        DatabaseManager.shared.posts(for: username) { result in
+
+        DatabaseManager.shared.posts(for: username) { [weak self] result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let posts):
-                    print("\n\n\n Posts \(posts.count)")
+                    print("\n\n\n Post: \(posts.count)")
+                    let group = DispatchGroup()
+
+                    posts.forEach { model in
+                        group.enter()
+                        self?.createViewModel(
+                            model: model,
+                            username: username,
+                            completion: { success in
+                                defer {
+                                    group.leave()
+                                }
+                                if !success {
+                                    print("failed to build VM")
+                                }
+                            }
+                        )
+                    }
+                    group.notify(queue: .main) {
+                        self?.collectionView?.reloadData()
+                    }
                 case .failure(let error):
                     print(error)
                 }
@@ -43,40 +64,49 @@ class NewHomeViewController: UIViewController {
         }
     }
     
-    private func createViewModel(model: Post) {
-        let postData: [HomeFeedCellType] = [
-            .poster(viewModel: PosterCollectionViewCellViewModel(
-                username: "hyonbo",
-                profilePictureURL: URL(
-                    string: "https://github.githubassets.com/images/modules/profile/achievements/pull-shark-default.png")!
+    private func createViewModel(
+        model: Post,
+        username: String,
+        completion: @escaping (Bool) -> Void
+    ) {
+        StorageManager.shared.downloadURL(for: model) { [weak self] url in
+            // The url is nil
+            print("\n\n\n Username:\(username)")
+            guard let postURL = url else {
+                return
+            }
+            let postData: [HomeFeedCellType] = [
+                .poster(viewModel: PosterCollectionViewCellViewModel(
+                    username: username,
+                    profilePictureURL: URL(
+                        string: "https://github.githubassets.com/images/modules/profile/achievements/pull-shark-default.png")!
+                    )
+                ),
+                .post(viewModel: PostCollectionViewCellViewModel(
+                    postURL: postURL
+                    )
+                ),
+                .actions(viewModel: PostActionsCollectionViewCellViewModel(
+                    isLiked: false
+                    )
+                ),
+                .likeCount(viewModel: PostLikesCollectionViewCellViewModel(
+                    likers: []
+                    )
+                ),
+                .caption(viewModel: PostCaptionCollectionViewCellViewModel(
+                    username: username,
+                    caption: model.caption
+                    )
+                ),
+                .timestamp(viewModel: PostDateTimeCollectionViewCellViewModel(
+                    date: DateFormatter.formatter.date(from: model.postedDate) ?? Date()
+                    )
                 )
-            ),
-            .post(viewModel: PostCollectionViewCellViewModel(
-                postURL: URL(
-                    string: "https://github.githubassets.com/images/modules/profile/achievements/pull-shark-default.png")!
-                )
-            ),
-            .actions(viewModel: PostActionsCollectionViewCellViewModel(
-                isLiked: true
-                )
-            ),
-            .likeCount(viewModel: PostLikesCollectionViewCellViewModel(
-                likers: ["stevejobs"]
-                )
-            ),
-            .caption(viewModel: PostCaptionCollectionViewCellViewModel(
-                username: "hyonbo",
-                caption: "Caption test, Caption test"
-                )
-            ),
-            .timestamp(viewModel: PostDateTimeCollectionViewCellViewModel(
-                date: Date()
-                )
-            )
-        ]
-        
-        viewModels.append(postData)
-        collectionView?.reloadData()
+            ]
+            self?.viewModels.append(postData)
+            completion(true)
+        }
     }
     
     private func configureCollectionView() {
