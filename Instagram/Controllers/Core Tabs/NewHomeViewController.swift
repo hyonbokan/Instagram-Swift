@@ -69,21 +69,21 @@ class NewHomeViewController: UIViewController {
         username: String,
         completion: @escaping (Bool) -> Void
     ) {
-        StorageManager.shared.downloadURL(for: model) { [weak self] url in
-            // The url is nil
-            print("\n\n\n Username:\(username)")
-            guard let postURL = url else {
+        
+        StorageManager.shared.profilePictureURL(for: username) { [weak self] profilePictureURL in
+            guard let postUrl = URL(string: model.postUrlString),
+                  let profilePhotoUrl = profilePictureURL else {
                 return
             }
+            
             let postData: [HomeFeedCellType] = [
                 .poster(viewModel: PosterCollectionViewCellViewModel(
                     username: username,
-                    profilePictureURL: URL(
-                        string: "https://github.githubassets.com/images/modules/profile/achievements/pull-shark-default.png")!
+                    profilePictureURL: profilePhotoUrl
                     )
                 ),
                 .post(viewModel: PostCollectionViewCellViewModel(
-                    postURL: postURL
+                    postURL: postUrl
                     )
                 ),
                 .actions(viewModel: PostActionsCollectionViewCellViewModel(
