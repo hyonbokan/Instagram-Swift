@@ -15,18 +15,66 @@ class ExploreViewController: UIViewController, UISearchResultsUpdating {
         let layout = UICollectionViewCompositionalLayout { index, _ -> NSCollectionLayoutSection? in
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(0.5),
+                    heightDimension: .fractionalHeight(1)
+                )
+            )
+            
+            let fullItem = NSCollectionLayoutItem(
+                layoutSize: NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1),
                     heightDimension: .fractionalHeight(1)
                 )
             )
-            let group = NSCollectionLayoutGroup.vertical(
+            
+            let tripletItem = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(1),
+                    widthDimension: .fractionalWidth(0.33),
+                    heightDimension: .fractionalHeight(1)
+                )
+            )
+            
+            let verticalGroup = NSCollectionLayoutGroup.vertical(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(0.5),
                     heightDimension: .fractionalHeight(1)
                 ),
-                subitems: [item]
+                subitem: fullItem,
+                count: 2
             )
-            return NSCollectionLayoutSection(group: group)
+            
+            let horizontalGroup = NSCollectionLayoutGroup.horizontal(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .absolute(160)
+                ),
+                subitems: [
+                    item,
+                    verticalGroup
+                ]
+            )
+            
+            let threeItemGroup = NSCollectionLayoutGroup.horizontal(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .absolute(160)
+                ),
+                subitem: tripletItem,
+                count: 3
+            )
+            
+            let finalGroup = NSCollectionLayoutGroup.vertical(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .absolute(320) // Make sure to change this value to fit other groupØs
+                ),
+                subitems: [
+                    horizontalGroup,
+                    threeItemGroup
+                ]
+            )
+            
+            return NSCollectionLayoutSection(group: finalGroup)
         }
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .systemBackground
@@ -34,6 +82,8 @@ class ExploreViewController: UIViewController, UISearchResultsUpdating {
                                 forCellWithReuseIdentifier: PhotoCollectionViewCell.identifier)
         return collectionView
     }()
+    
+    private var posts = [Post]()
                                                              
     // MARK: - Lifecycle
     
@@ -48,6 +98,7 @@ class ExploreViewController: UIViewController, UISearchResultsUpdating {
         view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
+        fetchData()
         
     }
     
@@ -55,6 +106,17 @@ class ExploreViewController: UIViewController, UISearchResultsUpdating {
         super.viewDidLayoutSubviews()
         collectionView.frame = view.bounds
     }
+    
+    private func fetchData() {
+        DatabaseManager.shared.explorePosts { [weak self] posts in
+            print("\n\n\n Posts in database: \(posts.count)")
+            DispatchQueue.main.async {
+                self?.posts = posts
+                self?.collectionView.reloadData()
+            }
+        }
+    }
+    
     
     func updateSearchResults(for searchController: UISearchController) {
         guard let resultsVC = searchController.searchResultsController as? SearchResultsViewController,
@@ -82,7 +144,7 @@ extension ExploreViewController: SearchResultsViewControllerDelegate {
 
 extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 30
+        return posts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -91,8 +153,15 @@ extension ExploreViewController: UICollectionViewDelegate, UICollectionViewDataS
             for: indexPath) as? PhotoCollectionViewCell else {
                 fatalError()
             }
-        
-        cell.configure(with: UIImage(named: "test"))
+        let model = posts[indexPath.row]
+        cell.configure(with: URL(string: model.postUrlString))
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        let post = posts[indexPath.row]
+        let vc = PostViewController(post: post)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

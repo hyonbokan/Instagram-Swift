@@ -111,11 +111,11 @@ extension ProfileViewControllerOld: UICollectionViewDelegate, UICollectionViewDa
             owner: user)
         // get the model and open post controller
 //        let model = userPosts[indexPath.row]
-        let vc = PostViewController(model: post)
-        vc.title = post.postType.rawValue
-        vc.navigationItem.largeTitleDisplayMode = .never
-        // check the difference between nav.pushVC and present
-        navigationController?.pushViewController(vc, animated: true)
+//        let vc = PostViewController(model: post)
+//        vc.title = post.postType.rawValue
+//        vc.navigationItem.largeTitleDisplayMode = .never
+//        // check the difference between nav.pushVC and present
+//        navigationController?.pushViewController(vc, animated: true)
     }
     
     // check this datasource / delegate

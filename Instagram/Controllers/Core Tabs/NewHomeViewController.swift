@@ -36,7 +36,6 @@ class NewHomeViewController: UIViewController {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let posts):
-                    print("\n\n\n Post: \(posts.count)")
                     let group = DispatchGroup()
 
                     posts.forEach { model in
@@ -329,9 +328,9 @@ extension NewHomeViewController: PostActionsCollectionViewCellDelegate {
     }
     
     func postActionsCollectionViewCellDidTapComment(_ cell: PostActionsCollectionViewCell) {
-        let vc = PostViewController(model: UserPost(identifier: "test", postType: .photo, thumbnailImage: URL(string: "https://github.githubassets.com/images/modules/profile/achievements/pull-shark-default.png")!, postURL:URL(string: "https://github.githubassets.com/images/modules/profile/achievements/pull-shark-default.png")!, caption: "Testing", likeCount: [], comment: [], createdDate: Date(), taggedUsers: [], owner: UserOld(username: "hyonbo", name: ("hyonbo", "kan"), profilePhoto: URL(string: "https://github.githubassets.com/images/modules/profile/achievements/pull-shark-default.png")!, birthDate: Date(), gender: .male, counts: UserCount(followers: 0, following: 0, posts: 0), joinDate: Date())))
-        vc.title = "Comments"
-        navigationController?.pushViewController(vc, animated: true)
+//        let vc = PostViewController(post: )
+//        vc.title = "Post"
+//        navigationController?.pushViewController(vc, animated: true)
     }
     
     func postActionsCollectionViewCellDidTapShare(_ cell: PostActionsCollectionViewCell) {

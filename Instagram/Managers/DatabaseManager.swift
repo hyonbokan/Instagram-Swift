@@ -21,7 +21,7 @@ final class DatabaseManager {
             let ref = database.collection("users")
             ref.getDocuments { snapshot, error in
                 guard let users = snapshot?.documents.compactMap({ User(with: $0.data()) }),
-                    error == nil
+                      error == nil
                 else {
                     completion([])
                     return
@@ -32,7 +32,7 @@ final class DatabaseManager {
                 })
                 completion(subset)
             }
-    }
+        }
     
     public func posts(for username: String, completion: @escaping (Result<[Post], Error>) -> Void) {
         let ref = database.collection("users")
@@ -41,7 +41,7 @@ final class DatabaseManager {
         ref.getDocuments { snapshot, error in
             guard let posts = snapshot?.documents.compactMap({ Post(with: $0.data())
             }),
-            error == nil else {
+                  error == nil else {
                 return
             }
             
@@ -55,7 +55,7 @@ final class DatabaseManager {
         let ref = database.collection("users")
         ref.getDocuments { snapshot, error in
             guard let users = snapshot?.documents.compactMap({ User(with: $0.data()) }),
-                error == nil
+                  error == nil
             else {
                 completion(nil)
                 return
@@ -92,6 +92,42 @@ final class DatabaseManager {
         // store data(username: example, email: exmaple) in the Firestore database document
         reference.setData(data) { error in
             completion(error == nil)
+        }
+    }
+    
+    public func explorePosts(completion: @escaping ([Post]) -> Void) {
+        let ref = database.collection("users")
+        ref.getDocuments { snapshot, error in
+            guard let users = snapshot?.documents.compactMap({ User(with: $0.data()) }),
+                  error == nil
+            else {
+                completion([])
+                return
+            }
+            let group = DispatchGroup()
+            var aggregatePosts = [Post]()
+            
+            users.forEach { user in
+                group.enter()
+                
+                let username = user.username
+                let postsRef = self.database.collection("users/\(username)/posts")
+                
+                postsRef.getDocuments { snapshot, error in
+                    defer {
+                        group.leave()
+                    }
+                    guard let posts = snapshot?.documents.compactMap({ Post(with: $0.data()) }),
+                          error == nil
+                    else {
+                        return
+                    }
+                    aggregatePosts.append(contentsOf: posts)
+                }
+            }
+            group.notify(queue: .main) {
+                completion(aggregatePosts)
+            }
         }
     }
 }
