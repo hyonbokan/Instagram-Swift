@@ -20,11 +20,23 @@ struct UserNotification {
 
 final class NotificationsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    private let noActivityLabel: UILabel = {
+        let label = UILabel()
+        label.text = "No Notifications"
+        label.textColor = .secondaryLabel
+        label.textAlignment = .center
+        label.isHidden = true
+        return label
+    }()
+    
+    private var viewModels: [NotificationCellType] = []
+    
     private let tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.isHidden = false
-        tableView.register(NotificationLikeEventTableViewCell.self, forCellReuseIdentifier: NotificationLikeEventTableViewCell.indentifier)
-        tableView.register(NotificationFollowEventTableViewCell.self, forCellReuseIdentifier: NotificationFollowEventTableViewCell.indentifier)
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        tableView.isHidden = true
+        tableView.register(LikeNotificationTableViewCell.self, forCellReuseIdentifier: LikeNotificationTableViewCell.indentifier)
+        tableView.register(FollowNotificationTableViewCell.self, forCellReuseIdentifier: FollowNotificationTableViewCell.indentifier)
+        tableView.register(CommentNotficationTableViewCell.self, forCellReuseIdentifier: CommentNotficationTableViewCell.indentifier)
         return tableView
     }()
     
@@ -44,8 +56,6 @@ final class NotificationsViewController: UIViewController, UITableViewDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchNotifications()
-        // set navigationItem.title instead of just 'title' so it shows only on the nav and not on the tab
         navigationItem.title = "Notifications"
         view.backgroundColor = .systemBackground
         view.addSubview(spinner)
@@ -54,10 +64,14 @@ final class NotificationsViewController: UIViewController, UITableViewDelegate, 
 //        view.addSubview(noNotificationsView)
         tableView.delegate = self
         tableView.dataSource = self
+        view.addSubview(noActivityLabel)
+        fetchNotifications()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        noActivityLabel.sizeToFit()
+        noActivityLabel.center = view.center
         
         let topSafeArea = view.safeAreaInsets.top
         let bottomSafeArea = view.safeAreaInsets.bottom
@@ -68,38 +82,42 @@ final class NotificationsViewController: UIViewController, UITableViewDelegate, 
         tableView.frame = CGRect(x: 0, y: topSafeArea, width: view.bounds.width, height: availableHeight)
         spinner.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         spinner.center = view.center
-
+        
     }
     
     private func fetchNotifications() {
-        for x in 0...100 {
-            let user = UserOld(username: "hyonbo",
-                            name: (first: "Hyonbo", last: "Kan"),
-                            profilePhoto: URL(string: "https://www.google.com")!,
-                            birthDate: Date(),
-                            gender: .male,
-                            counts: UserCount(followers: 1, following: 1, posts: 1), joinDate: Date())
-            
-            let post = UserPost(
-                identifier: "",
-                postType: .photo,
-                thumbnailImage: URL(string: "https://www.google.com")!,
-                postURL: URL(string: "https://www.google.com")!,
-                caption: nil,
-                likeCount: [],
-                comment: [],
-                createdDate: Date(),
-                taggedUsers: [],
-                owner: user)
-            
-            
-            let model = UserNotification(
-                type: x % 2 == 0 ? .like(post: post) : .follow(state: .not_following),
-                text: "Testing Notification",
-                user: user)
-            
-            models.append(model)
+        
+        mockData()
+    }
+    
+    private func mockData() {
+        tableView.isHidden = false
+        guard let postUrl = URL(string: "https://avatars.githubusercontent.com/u/107212320?v=4"),
+              let iconUrl = URL(string: "https://avatars.githubusercontent.com/u/107212320?v=4")
+        else {
+            return
         }
+        viewModels = [
+            .like(
+                viewModel: LikeNotificationCellViewModel(
+                    username: "annaKan",
+                    profilePictureUrl: iconUrl,
+                    postUrl: postUrl
+                )
+            ),
+            .comment(viewModel: CommentNotificationCellViewModel(
+                username: "ryanKan",
+                profilePictureUrl: iconUrl,
+                postUrl: postUrl
+                )
+            ),
+            .follow(viewModel: FollowNotificationCellViewModel(
+                username: "gengisKhan",
+                profilePictureUrl: iconUrl,
+                isCurrentUserFollowing: true))
+        ]
+        
+        tableView.reloadData()
     }
     
     private func addNoNotificationsView() {
@@ -110,26 +128,38 @@ final class NotificationsViewController: UIViewController, UITableViewDelegate, 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return models.count
+        return viewModels.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let model = models[indexPath.row]
-        switch model.type {
-        case .like(_):
-            // like cell
-            let cell = tableView.dequeueReusableCell(withIdentifier: NotificationLikeEventTableViewCell.indentifier, for: indexPath) as! NotificationLikeEventTableViewCell
-            // Configure passes the model to the cell. If disabled, the default values will be passed
-            cell.configure(with: model)
-            cell.delegate = self
+        let cellType = viewModels[indexPath.row]
+        switch cellType {
+        case .follow(let viewModel):
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: FollowNotificationTableViewCell.indentifier,
+                for: indexPath
+            ) as? FollowNotificationTableViewCell else {
+                fatalError()
+            }
+            cell.configure(with: viewModel)
             return cell
-            
-        case .follow:
-            // follow cell
-            let cell = tableView.dequeueReusableCell(withIdentifier: NotificationFollowEventTableViewCell.indentifier, for: indexPath) as! NotificationFollowEventTableViewCell
-            //Configure passes the model to the cell, if not the delegate func may not trigger
-            cell.configure(with: model)
-            cell.delegate = self
+        case .like(let viewModel):
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: LikeNotificationTableViewCell.indentifier,
+                for: indexPath
+            ) as? LikeNotificationTableViewCell else {
+                fatalError()
+            }
+            cell.configure(with: viewModel)
+            return cell
+        case .comment(let viewModel):
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: CommentNotficationTableViewCell.indentifier,
+                for: indexPath
+            ) as? CommentNotficationTableViewCell else {
+                fatalError()
+            }
+            cell.configure(with: viewModel)
             return cell
         }
         
@@ -141,7 +171,7 @@ final class NotificationsViewController: UIViewController, UITableViewDelegate, 
 
 }
 
-extension NotificationsViewController: NotificationLikeEventTableViewCellDelegate {
+extension NotificationsViewController: LikeNotificationTableViewCellDelegate {
     func didTapRelatedPostButton(model: UserNotification) {
         print("Tapped post")
 //        switch model.type{
@@ -158,7 +188,7 @@ extension NotificationsViewController: NotificationLikeEventTableViewCellDelegat
     }
 }
 
-extension NotificationsViewController: NotificationFollowEventTableViewCellDelegate {
+extension NotificationsViewController: FollowNotificationTableViewCellDelegate {
     func didTapFollowUnFollowButton(model: UserNotification) {
         print("Tapped button")
         // Perform DB update
