@@ -8,7 +8,8 @@ import SDWebImage //Pods dependency
 import UIKit
 
 protocol LikeNotificationTableViewCellDelegate: AnyObject {
-    func didTapRelatedPostButton(model: UserNotification)
+    func likeNotificationTableViewCell(_ cell: LikeNotificationTableViewCell,
+                                       didTapPostWith viewModel: LikeNotificationCellViewModel)
 }
 
 class LikeNotificationTableViewCell: UITableViewCell {
@@ -16,9 +17,7 @@ class LikeNotificationTableViewCell: UITableViewCell {
     static let indentifier = "LikeNotificationTableViewCell"
     
     weak var delegate: LikeNotificationTableViewCellDelegate?
-    
-    
-//    weak var delegate: CommentNotficationTableViewCellDelegate?
+
     
     private var viewModel: LikeNotificationCellViewModel?
     
@@ -49,19 +48,24 @@ class LikeNotificationTableViewCell: UITableViewCell {
 // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        selectionStyle = .none
         contentView.clipsToBounds = true
         contentView.addSubview(profilePictureImageView)
         contentView.addSubview(postImageView)
         contentView.addSubview(label)
-        selectionStyle = .none
-    }
-    
-    @objc private func didTapFollowButton() {
-
+        
+        postImageView.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapPost))
+        postImageView.addGestureRecognizer(tap)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc private func didTapPost() {
+        guard let vm = viewModel else { return }
+        delegate?.likeNotificationTableViewCell(self, didTapPostWith: vm)
     }
     
     // prepareForReuse - in testing
@@ -108,6 +112,7 @@ class LikeNotificationTableViewCell: UITableViewCell {
     }
     
     public func configure(with viewModel: LikeNotificationCellViewModel) {
+        self.viewModel = viewModel
         profilePictureImageView.sd_setImage(with: viewModel.profilePictureUrl, completed: nil)
         postImageView.sd_setImage(with: viewModel.postUrl, completed: nil)
         label.text = viewModel.username + " liked on your post"

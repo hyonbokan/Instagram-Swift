@@ -7,12 +7,16 @@
 
 import UIKit
 
+protocol CommentNotficationTableViewCellDelegate: AnyObject {
+    func commentNotficationTableViewCell(_ cell: CommentNotficationTableViewCell,
+                                         didTapPostWith viewModel: CommentNotificationCellViewModel)
+}
+
 class CommentNotficationTableViewCell: UITableViewCell {
     
     static let indentifier = "CommentNotficationTableViewCell"
     
-    
-//    weak var delegate: CommentNotficationTableViewCellDelegate?
+    weak var delegate: CommentNotficationTableViewCellDelegate?
     
     private var viewModel: CommentNotificationCellViewModel?
     
@@ -43,19 +47,24 @@ class CommentNotficationTableViewCell: UITableViewCell {
 // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        selectionStyle = .none
         contentView.clipsToBounds = true
         contentView.addSubview(profilePictureImageView)
         contentView.addSubview(postImageView)
         contentView.addSubview(label)
-        selectionStyle = .none
-    }
-    
-    @objc private func didTapFollowButton() {
-
+        
+        postImageView.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapPost))
+        postImageView.addGestureRecognizer(tap)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc private func didTapPost() {
+        guard let vm = viewModel else { return }
+        delegate?.commentNotficationTableViewCell(self, didTapPostWith: vm)
     }
     
     // prepareForReuse - in testing
@@ -102,6 +111,7 @@ class CommentNotficationTableViewCell: UITableViewCell {
     }
     
     public func configure(with viewModel: CommentNotificationCellViewModel) {
+        self.viewModel = viewModel
         profilePictureImageView.sd_setImage(with: viewModel.profilePictureUrl, completed: nil)
         postImageView.sd_setImage(with: viewModel.postUrl, completed: nil)
         label.text = viewModel.username + " commented on your post"

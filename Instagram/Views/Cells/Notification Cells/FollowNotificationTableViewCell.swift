@@ -9,7 +9,8 @@ import UIKit
 
 protocol FollowNotificationTableViewCellDelegate: AnyObject {
     func followNotificationTableViewCell(_ cell: FollowNotificationTableViewCell,
-                                         didTapButton isfollowing: Bool)
+                                         didTapButton isFollowing: Bool,
+                                         viewModel: FollowNotificationCellViewModel)
 }
 
 class FollowNotificationTableViewCell: UITableViewCell {
@@ -50,16 +51,20 @@ class FollowNotificationTableViewCell: UITableViewCell {
 // MARK: - Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        selectionStyle = .none
         contentView.clipsToBounds = true
         contentView.addSubview(profilePictureImageView)
         contentView.addSubview(label)
         contentView.addSubview(followButton)
         followButton.addTarget(self, action: #selector(didTapFollowButton), for: .touchUpInside)
-        selectionStyle = .none
     }
     
     @objc private func didTapFollowButton() {
-        delegate?.followNotificationTableViewCell(self, didTapButton: !isFollowing)
+        guard let vm = viewModel else { return }
+        delegate?.followNotificationTableViewCell(
+            self,
+            didTapButton: !isFollowing,
+            viewModel: vm)
         
         isFollowing = !isFollowing
         updateButton()
@@ -127,6 +132,7 @@ class FollowNotificationTableViewCell: UITableViewCell {
     }
     
     public func configure(with viewModel: FollowNotificationCellViewModel) {
+        self.viewModel = viewModel
         label.text = viewModel.username + " started following you"
         profilePictureImageView.sd_setImage(with: viewModel.profilePictureUrl, completed: nil)
         isFollowing = viewModel.isCurrentUserFollowing
