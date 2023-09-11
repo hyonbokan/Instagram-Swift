@@ -154,8 +154,34 @@ final class DatabaseManager {
         data: [String: Any],
         for username: String
     ) {
-        let ref = database.collection("users").document(username).collection("notifications").document(identifier)
+        let ref = database
+            .collection("users")
+            .document(username)
+            .collection("notifications")
+            .document(identifier)
         
         ref.setData(data)
+        print(ref)
+    }
+    
+    public func getPost(
+        with identifier: String,
+        from username: String,
+        completion: @escaping (Post?) -> Void
+    ) {
+        let ref = database
+            .collection("users")
+            .document(username)
+            .collection("posts")
+            .document(identifier)
+        
+        ref.getDocument { snapshot, error in
+            guard let data = snapshot?.data(),
+                    error == nil else {
+                completion(nil)
+                return
+            }
+            completion(Post(with: data))
+        }
     }
 }

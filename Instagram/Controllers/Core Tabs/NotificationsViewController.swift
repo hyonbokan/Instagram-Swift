@@ -100,7 +100,8 @@ final class NotificationsViewController: UIViewController, UITableViewDelegate, 
                     viewModels.append(.like(viewModel: LikeNotificationCellViewModel(
                         username: username,
                         profilePictureUrl: profilePictureUrl,
-                        postUrl: postUrl
+                        postUrl: postUrl,
+                        date: model.dateString
                         )
                     )
                 )
@@ -109,7 +110,8 @@ final class NotificationsViewController: UIViewController, UITableViewDelegate, 
                     viewModels.append(.comment(viewModel: CommentNotificationCellViewModel(
                         username: username,
                         profilePictureUrl: profilePictureUrl,
-                        postUrl: postUrl
+                        postUrl: postUrl,
+                        date: model.dateString
                         )
                     )
                 )
@@ -120,13 +122,14 @@ final class NotificationsViewController: UIViewController, UITableViewDelegate, 
                     viewModels.append(.follow(viewModel: FollowNotificationCellViewModel(
                         username: username,
                         profilePictureUrl: profilePictureUrl,
-                        isCurrentUserFollowing: isFollowing
+                        isCurrentUserFollowing: isFollowing,
+                        date: model.dateString
                         )
                     )
                 )
             }
         }
-//        print(viewModels.count)
+        print(viewModels.count)
         if viewModels.isEmpty {
             noActivityLabel.isHidden = false
             tableView.isHidden = true
@@ -149,19 +152,24 @@ final class NotificationsViewController: UIViewController, UITableViewDelegate, 
                 viewModel: LikeNotificationCellViewModel(
                     username: "annaKan",
                     profilePictureUrl: iconUrl,
-                    postUrl: postUrl
+                    postUrl: postUrl,
+                    date: "September 10"
                 )
             ),
             .comment(viewModel: CommentNotificationCellViewModel(
                 username: "ryanKan",
                 profilePictureUrl: iconUrl,
-                postUrl: postUrl
+                postUrl: postUrl,
+                date: "September 10"
                 )
             ),
             .follow(viewModel: FollowNotificationCellViewModel(
                 username: "gengisKhan",
                 profilePictureUrl: iconUrl,
-                isCurrentUserFollowing: true))
+                isCurrentUserFollowing: true,
+                date: "September 10"
+                )
+            )
         ]
         
         tableView.reloadData()
@@ -305,6 +313,24 @@ extension NotificationsViewController: LikeNotificationTableViewCellDelegate, Fo
         let username = username
         guard let postID = model.postId else {
             return
+        }
+        
+        // Find post by id from target user
+        DatabaseManager.shared.getPost(
+            with: postID,
+            from: username
+        ) { [weak self] post in
+            DispatchQueue.main.async {
+                guard let post = post else {
+                    let ac = UIAlertController(title: "Error", message: "Could not find the post", preferredStyle: .alert)
+                    ac.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+                    self?.present(ac, animated: true)
+                    return
+                }
+                let vc = PostViewController(post: post)
+                self?.navigationController?.pushViewController(vc, animated: true)
+            }
+            
         }
     }
     
