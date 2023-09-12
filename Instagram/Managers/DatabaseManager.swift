@@ -184,4 +184,56 @@ final class DatabaseManager {
             completion(Post(with: data))
         }
     }
+    
+    enum RelationshipState {
+        case follow
+        case unfollow
+    }
+    
+    public func updateRelationship(
+        state: RelationshipState,
+        for targetUsername: String,
+        completion: @escaping (Bool) -> Void
+    ) {
+        guard let currentUsername = UserDefaults.standard.string(forKey: "username") else {
+            completion(false)
+            return
+        }
+//        let currentFollowers = database
+//            .collection("users")
+//            .document(currentUsername)
+//            .collection("followers")
+        
+        let currentFollowing = database
+            .collection("users")
+            .document(currentUsername)
+            .collection("following")
+        
+        let targetUserFollowers = database
+            .collection("users")
+            .document(targetUsername)
+            .collection("followers")
+        
+//        let targetUserFollowing = database
+//            .collection("users")
+//            .document(targetUsername)
+//            .collection("following")
+        
+        
+        
+        switch state {
+        case .unfollow:
+            // Remove follower for currentUser following list
+            currentFollowing.document(targetUsername).delete()
+            // Remove currestUser from targetUser followers list
+            targetUserFollowers.document(currentUsername).delete()
+            completion(true)
+        case .follow:
+            // Add follower for requester following list
+            currentFollowing.document(targetUsername).setData(["valid": "1"])
+            // Add currestUser to targetUser follower list
+            targetUserFollowers.document(currentUsername).setData(["valid": "1"])
+            completion(true)
+        }
+    }
 }

@@ -283,9 +283,11 @@ extension NotificationsViewController: LikeNotificationTableViewCellDelegate, Fo
         
         let username = viewModel.username
         
-//        DatabaseManager.shared.updateRelationship(state: isFollowing ? .follow : .unfollow, for: username) {
-//            success in
-//        }
+        DatabaseManager.shared.updateRelationship(
+            state: isFollowing ? .follow : .unfollow,
+            for: username) {
+            success in
+        }
     }
     
     func commentNotficationTableViewCell(_ cell: CommentNotficationTableViewCell,
