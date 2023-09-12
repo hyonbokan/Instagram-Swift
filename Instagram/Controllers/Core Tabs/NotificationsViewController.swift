@@ -241,8 +241,9 @@ final class NotificationsViewController: UIViewController, UITableViewDelegate, 
             username = viewModel.username
         }
         
-        DatabaseManager.shared.findUser(with: username) { [weak self] user in
+        DatabaseManager.shared.findUser(username: username) { [weak self] user in
             guard let user else {
+                // Add show error alert
                 return
             }
             // Update function to use username (below is the email)
@@ -282,11 +283,18 @@ extension NotificationsViewController: LikeNotificationTableViewCellDelegate, Fo
     func followNotificationTableViewCell(_ cell: FollowNotificationTableViewCell, didTapButton isFollowing: Bool, viewModel: FollowNotificationCellViewModel) {
         
         let username = viewModel.username
-        
+        print("Requesting follow=\(isFollowing) for user=\(username)")
         DatabaseManager.shared.updateRelationship(
             state: isFollowing ? .follow : .unfollow,
             for: username) {
-            success in
+            [weak self] success in
+                if !success {
+                    DispatchQueue.main.async {
+                        let ac = UIAlertController(title: "Error", message: "Unable to perform the request", preferredStyle: .alert)
+                        ac.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
+                        self?.present(ac, animated: true)
+                    }
+                }
         }
     }
     

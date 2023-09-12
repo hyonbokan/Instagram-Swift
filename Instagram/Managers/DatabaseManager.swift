@@ -66,6 +66,21 @@ final class DatabaseManager {
         }
     }
     
+    public func findUser(username: String, completion: @escaping (User?) -> Void) {
+        let ref = database.collection("users")
+        ref.getDocuments { snapshot, error in
+            guard let users = snapshot?.documents.compactMap({ User(with: $0.data()) }),
+                  error == nil
+            else {
+                completion(nil)
+                return
+            }
+            
+            let user = users.first(where: { $0.username == username })
+            completion(user)
+        }
+    }
+    
     public func createPost(newPost: Post, completion: @escaping (Bool) -> Void) {
         guard let username = UserDefaults.standard.string(forKey: "username") else {
             completion(false)
