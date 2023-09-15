@@ -73,6 +73,7 @@
 		BDBCADE72A9E137F009388D3 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBCADE62A9E137F009388D3 /* DatabaseManager.swift */; };
 		BDBCADE92A9E148A009388D3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBCADE82A9E148A009388D3 /* User.swift */; };
 		BDBCADEB2A9E1F01009388D3 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDBCADEA2A9E1F01009388D3 /* StorageManager.swift */; };
+		BDC2BF052AB44E3000E6A80C /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDC2BF042AB44E3000E6A80C /* UserInfo.swift */; };
 		BDCEB3D42A91BD69003DF76F /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDCEB3D32A91BD69003DF76F /* Models.swift */; };
 		BDD6A6ED2A9BA27800BCEA92 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD6A6EC2A9BA27800BCEA92 /* AnalyticsManager.swift */; };
 		BDD6A6F02A9BA2D700BCEA92 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDD6A6EF2A9BA2D700BCEA92 /* HapticsManager.swift */; };
@@ -151,6 +152,7 @@
 		BDBCADE62A9E137F009388D3 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		BDBCADE82A9E148A009388D3 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		BDBCADEA2A9E1F01009388D3 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		BDC2BF042AB44E3000E6A80C /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		BDCEB3D32A91BD69003DF76F /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Models.swift; path = Instagram/Legacy/Models.swift; sourceTree = SOURCE_ROOT; };
 		BDD6A6EC2A9BA27800BCEA92 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 		BDD6A6EF2A9BA2D700BCEA92 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
@@ -371,6 +373,7 @@
 				9EF3994D2AA6C6B40058F383 /* Post.swift */,
 				9EADE4FD2AAAE32B00E6E2C8 /* NotificationCellType.swift */,
 				BDEB78E02AAC817D00668D2E /* Notification.swift */,
+				BDC2BF042AB44E3000E6A80C /* UserInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -598,6 +601,7 @@
 				BD2E70BF2A9F389E00B26BB7 /* ProfileViewController.swift in Sources */,
 				BD26D5AF2A8B7BEB007B7F5B /* SettingsViewController.swift in Sources */,
 				BD11AEAE2AA1D2CC002553E3 /* PostLikesCollectionViewCellViewModel.swift in Sources */,
+				BDC2BF052AB44E3000E6A80C /* UserInfo.swift in Sources */,
 				BDBCADE92A9E148A009388D3 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -75,7 +75,8 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         if let name = viewModel.name {
             text = name + "\n"
         }
-        text += viewModel.bio ?? "Welcome to my profile."
+        // Default text for the bio if there is none
+        text += viewModel.bio ?? "Add your bio here"
         bioLabel.text = text
         
         // Container

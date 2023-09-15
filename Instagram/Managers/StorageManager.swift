@@ -45,7 +45,8 @@ final class StorageManager {
     }
     
     public func profilePictureURL(for username: String, completion: @escaping (URL?) -> Void) {
-        storage.child("\(username)/profile_picture.png").downloadURL { url, _ in
+        storage.child("\(username)/profile_picture.png").downloadURL { url, error in
+//            print("From storage. Profile picture url: \(url)")
             completion(url)
         }
     }

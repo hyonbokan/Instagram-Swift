@@ -11,6 +11,8 @@ class ProfileViewController: UIViewController {
 
     private let user: User
     
+    private var headerViewModel: ProfileHeaderViewModel?
+    
     private var isCurrentUser: Bool {
         return user.username.lowercased() == UserDefaults.standard.string(forKey: "username")?.lowercased() ?? ""
     }
@@ -48,20 +50,71 @@ class ProfileViewController: UIViewController {
     }
     
     private func fetchProfileInfo() {
-        // Counts
+//        headerViewModel = ProfileHeaderViewModel(
+//            profilePictureUrl: nil,
+//            followerCount: 200,
+//            followingCount: 130,
+//            postCount: 30,
+//            buttonType: isCurrentUser ? .edit : .follow(isFollowing: true),
+//            name: "Name: Test",
+//            bio: "Test profile"
+//        )
+        var profilePictureUrl: URL?
+        var buttonType: ProfileButtonType = .edit
+        var followers = 0
+        var following = 0
+        var posts = 0
+        var name: String?
+        var bio: String?
+        
+        let group = DispatchGroup()
+        
+        // Counts (total: 3)
+        group.enter()
+        DatabaseManager.shared.getUserCounts(username: user.username) { result in
+            defer {
+                group.leave()
+            }
+            posts = result.posts
+            followers = result.followers
+            following = result.following
+        }
         
         // Bio, name
-        
+        DatabaseManager.shared.getUserInfo(username: user.username) { userInfo in
+            name = userInfo?.name
+            bio = userInfo?.bio
+        }
         
         // Profile pic url
+        group.enter()
         StorageManager.shared.profilePictureURL(for: user.username) { url in
-            
+            defer {
+                group.leave()
+            }
+            profilePictureUrl = url
         }
         
         // if profile is not for current user, get follow state
         if !isCurrentUser {
             // Have the follow state
-            
+            group.enter()
+            DatabaseManager.shared.isFollowing(targetUsername: user.username) { isFollowing in
+                buttonType = .follow(isFollowing: isFollowing)
+            }
+        }
+        
+        group.notify(queue: .main) {
+            self.headerViewModel = ProfileHeaderViewModel(
+                profilePictureUrl: profilePictureUrl,
+                followerCount: followers,
+                followingCount: following,
+                postCount: posts,
+                buttonType: buttonType,
+                name: name,
+                bio: bio
+            )
+            self.collectionView?.reloadData()
         }
     }
     
@@ -103,18 +156,11 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             ) as? ProfileHeaderCollectionReusableView else {
             return UICollectionReusableView()
         }
-        let viewModel = ProfileHeaderViewModel(
-            profilePictureUrl: nil,
-            followerCount: 200,
-            followingCount: 130,
-            postCount: 30,
-            buttonType: self.isCurrentUser ? .edit : .follow(isFollowing: true),
-            name: "Name: Test",
-            bio: "Test profile"
-        )
-        headerView.configure(with: viewModel)
         // instead of creating another delegate - ProfileHeaderCollectionReusableView, have the container public
-        headerView.countContainerView.delegate = self
+        if let viewModel = headerViewModel {
+            headerView.configure(with: viewModel)
+            headerView.countContainerView.delegate = self
+        }
         return headerView
     }
     
