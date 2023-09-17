@@ -186,7 +186,16 @@ extension ProfileViewController: ProfileHeaderCountViewDelegate {
     }
     
     func profileHeaderCountViewDidTapFollowEditProfile(_ containerView: ProfileHeaderCountView) {
+        let vc = EditProfileViewController()
+        vc.completion = {
+            // refetch header info
+            [weak self] in
+            self?.headerViewModel = nil
+            self?.fetchProfileInfo()
+        }
         
+        let navVC = UINavigationController(rootViewController: vc)
+        present(navVC, animated: true)
     }
     
     func profileHeaderCountViewDidTapFollow(_ containerView: ProfileHeaderCountView) {

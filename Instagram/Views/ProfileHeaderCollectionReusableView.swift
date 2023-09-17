@@ -23,6 +23,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     
     private let bioLabel: UILabel = {
         let label = UILabel()
+        label.backgroundColor = .red
         label.numberOfLines = 0
         label.text = "Instagram Profile Bio Test"
         label.font = .systemFont(ofSize: 18)
@@ -53,12 +54,15 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
             width: width-imageView.right-10,
             height: imageSize
         )
-        bioLabel.sizeToFit()
+        let bioSize = bioLabel.sizeThatFits(
+            CGSize(width: width-10, height: height-imageSize-10)
+        )
+        
         bioLabel.frame = CGRect(
             x: 5,
             y: imageView.bottom+10,
-            width: width-10,
-            height: bioLabel.height
+            width: bioSize.width,
+            height: bioSize.height
         )
         
     }
