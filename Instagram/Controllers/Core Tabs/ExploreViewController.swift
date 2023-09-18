@@ -137,6 +137,7 @@ class ExploreViewController: UIViewController, UISearchResultsUpdating {
 
 extension ExploreViewController: SearchResultsViewControllerDelegate {
     func searchResultsViewController(_ vc: SearchResultsViewController, didSelectResultWith user: User) {
+        
         let vc = ProfileViewController(user: user)
         navigationController?.pushViewController(vc, animated: true)
     }

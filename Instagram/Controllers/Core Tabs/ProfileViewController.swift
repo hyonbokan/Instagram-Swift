@@ -13,6 +13,8 @@ class ProfileViewController: UIViewController {
     
     private var headerViewModel: ProfileHeaderViewModel?
     
+    private var posts: [Post] = []
+    
     private var isCurrentUser: Bool {
         return user.username.lowercased() == UserDefaults.standard.string(forKey: "username")?.lowercased() ?? ""
     }
@@ -38,6 +40,7 @@ class ProfileViewController: UIViewController {
         configureNavBar()
         configureCollectionView()
         fetchProfileInfo()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -50,6 +53,26 @@ class ProfileViewController: UIViewController {
     }
     
     private func fetchProfileInfo() {
+        let username = user.username
+        let group = DispatchGroup()
+        
+        // Fetch post info
+        group.enter()
+        DatabaseManager.shared.posts(for: username) { [weak self] result in
+            defer {
+                group.leave()
+            }
+            
+            switch result {
+            case .success(let posts):
+                self?.posts = posts
+            case .failure:
+                break
+            }
+        }
+        
+        // Fetch Profile header info
+        
 //        headerViewModel = ProfileHeaderViewModel(
 //            profilePictureUrl: nil,
 //            followerCount: 200,
@@ -67,7 +90,6 @@ class ProfileViewController: UIViewController {
         var name: String?
         var bio: String?
         
-        let group = DispatchGroup()
         
         // Counts (total: 3)
         group.enter()
@@ -100,6 +122,11 @@ class ProfileViewController: UIViewController {
             // Have the follow state
             group.enter()
             DatabaseManager.shared.isFollowing(targetUsername: user.username) { isFollowing in
+                
+                defer {
+                    group.leave()
+                }
+
                 buttonType = .follow(isFollowing: isFollowing)
             }
         }
@@ -133,7 +160,7 @@ class ProfileViewController: UIViewController {
 }
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 30
+        return posts.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -143,7 +170,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         ) as? PhotoCollectionViewCell else {
             fatalError()
         }
-        cell.configure(with: UIImage(named: "test"))
+        cell.configure(with: URL(string: posts[indexPath.row].postUrlString))
         return cell
     }
     
@@ -161,16 +188,79 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             headerView.configure(with: viewModel)
             headerView.countContainerView.delegate = self
         }
+        headerView.delegate = self
         return headerView
     }
     
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let post =
-//        let vc = PostViewController(post: post)
-//        navigationController?.pushViewController(vc, animated: true)
+        let post = posts[indexPath.row]
+        let vc = PostViewController(post: post)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
+
+extension ProfileViewController: ProfileHeaderCollectionReusableViewDelegate {
+    func profileHeaderCollectionReusableViewDidTapProfilePicture(_ header: ProfileHeaderCollectionReusableView) {
+        // Check if it's a current user to ensure others cannot change the profile picture
+        guard isCurrentUser else {
+            return
+        }
+        
+        let sheet = UIAlertController(
+            title: "Change Profile Picture",
+            message: nil,
+            preferredStyle: .actionSheet
+        )
+        
+        sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        sheet.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { [weak self] _ in
+            DispatchQueue.main.async {
+                let picker = UIImagePickerController()
+                picker.allowsEditing = true
+                picker.sourceType = .camera
+                picker.delegate = self
+                self?.present(picker, animated: true)
+            }
+            
+        }))
+        sheet.addAction(UIAlertAction(title: "Choose Photo", style: .default, handler: {[weak self] _ in
+            DispatchQueue.main.async {
+                let picker = UIImagePickerController()
+                picker.allowsEditing = true
+                picker.sourceType = .photoLibrary
+                picker.delegate = self
+                self?.present(picker, animated: true)
+            }
+        }))
+        present(sheet, animated: true)
+    }
+    
+    
+}
+extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage else {
+            return
+        }
+        StorageManager.shared.uploadProfilePicture(
+            username: user.username,
+            data: image.pngData()) { [weak self] success in
+                if success {
+                    self?.headerViewModel = nil
+                    self?.posts = []
+                    self?.fetchProfileInfo()
+            }
+        }
+    }
+}
+
 
 extension ProfileViewController: ProfileHeaderCountViewDelegate {
     func profileHeaderCountViewDidTapFollowers(_ containerView: ProfileHeaderCountView) {
@@ -182,7 +272,10 @@ extension ProfileViewController: ProfileHeaderCountViewDelegate {
     }
     
     func profileHeaderCountViewDidTapFollowPosts(_ containerView: ProfileHeaderCountView) {
-        
+        guard posts.count >= 18 else {
+            return
+        }
+        collectionView?.setContentOffset(CGPoint(x: 0, y: view.width * 0.7), animated: true)
     }
     
     func profileHeaderCountViewDidTapFollowEditProfile(_ containerView: ProfileHeaderCountView) {

@@ -7,12 +7,19 @@
 
 import UIKit
 
+protocol ProfileHeaderCollectionReusableViewDelegate: AnyObject {
+    func profileHeaderCollectionReusableViewDidTapProfilePicture(_ header: ProfileHeaderCollectionReusableView)
+}
+
 class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     static let identifier = "ProfileHeaderCollectionReusableView"
+    
+    weak var delegate: ProfileHeaderCollectionReusableViewDelegate?
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
+        imageView.isUserInteractionEnabled = true
         imageView.clipsToBounds = true
         imageView.layer.masksToBounds = true
         imageView.backgroundColor = .secondarySystemBackground
@@ -23,7 +30,7 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
     
     private let bioLabel: UILabel = {
         let label = UILabel()
-        label.backgroundColor = .red
+//        label.backgroundColor = .red
         label.numberOfLines = 0
         label.text = "Instagram Profile Bio Test"
         label.font = .systemFont(ofSize: 18)
@@ -37,10 +44,17 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
         addSubview(imageView)
         addSubview(countContainerView)
         addSubview(bioLabel)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapImage))
+        imageView.addGestureRecognizer(tap)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func didTapImage() {
+        delegate?.profileHeaderCollectionReusableViewDidTapProfilePicture(self)
     }
     
     override func layoutSubviews() {
@@ -55,14 +69,14 @@ class ProfileHeaderCollectionReusableView: UICollectionReusableView {
             height: imageSize
         )
         let bioSize = bioLabel.sizeThatFits(
-            CGSize(width: width-10, height: height-imageSize-10)
+            bounds.size
         )
         
         bioLabel.frame = CGRect(
             x: 5,
             y: imageView.bottom+10,
-            width: bioSize.width,
-            height: bioSize.height
+            width: width-10,
+            height: bioSize.height+50
         )
         
     }
