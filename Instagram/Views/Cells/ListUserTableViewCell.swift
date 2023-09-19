@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol UserFollowTableViewCellDelegate: AnyObject {
+protocol ListUserTableViewCellDelegete: AnyObject {
     func didTapFollowUnfollowButton(model: UserRelationship)
 }
 
@@ -22,10 +22,10 @@ struct UserRelationship {
     let type: FollowState
 }
 
-class UserFollowTableViewCell: UITableViewCell {
-    static let identifier = "UserFollowTableViewCell"
+class ListUserTableViewCell: UITableViewCell {
+    static let identifier = "ListUserTableViewCell"
     
-    weak var deligate: UserFollowTableViewCellDelegate?
+    weak var deligate: ListUserTableViewCellDelegete?
     
     private var model: UserRelationship?
     
@@ -67,6 +67,7 @@ class UserFollowTableViewCell: UITableViewCell {
         contentView.addSubview(usernameLabel)
         contentView.addSubview(profileImageView)
         contentView.addSubview(followButton)
+        accessoryType = .disclosureIndicator
         selectionStyle = .none
         
         followButton.addTarget(self, action: #selector(didTapFollowerButton), for: .touchUpInside)
@@ -119,13 +120,22 @@ class UserFollowTableViewCell: UITableViewCell {
         
         profileImageView.layer.cornerRadius = profileImageView.height/2.0
         
-        // > 500 means the user is using iPad
-        let buttonWidth = contentView.width > 500 ? 220.0 : contentView.width/3
+        
+        followButton.sizeToFit()
+        let buttonWidth: CGFloat = max(followButton.width, 75)
         followButton.frame = CGRect(
-            x: contentView.width-5-buttonWidth,
-            y: (contentView.height-40)/2,
-            width: buttonWidth,
-            height: 40)
+            x: contentView.width - buttonWidth - 24,
+            y: (contentView.height - followButton.height)/2,
+            width: buttonWidth + 14,
+            height: followButton.height
+        )
+        // > 500 means the user is using iPad
+//        let buttonWidth = contentView.width > 500 ? 220.0 : contentView.width/3
+//        followButton.frame = CGRect(
+//            x: contentView.width-5-buttonWidth,
+//            y: (contentView.height-40)/2,
+//            width: buttonWidth,
+//            height: 40)
         
         let labelHeight = contentView.height/2
         nameLabel.frame = CGRect(
@@ -140,5 +150,18 @@ class UserFollowTableViewCell: UITableViewCell {
             width: contentView.width-8-profileImageView.width-buttonWidth,
             height: labelHeight)
         
+    }
+    
+    
+    func configure(with viewModel: ListUserTableViewCellViewModel) {
+        usernameLabel.text = viewModel.username
+        // Arguably ListUserTableViewCellViewModel should have profilePictureUrl
+        StorageManager.shared.profilePictureURL(for: viewModel.username) { [weak self] url in
+            DispatchQueue.main.async {
+                self?.profileImageView.sd_setImage(with: url, completed: nil)
+            }
+        }
+        profileImageView.sd_setImage(with: viewModel.imageUrl, completed: nil)
+        // add if the user if following
     }
 }

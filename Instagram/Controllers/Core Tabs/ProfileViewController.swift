@@ -126,7 +126,7 @@ class ProfileViewController: UIViewController {
                 defer {
                     group.leave()
                 }
-
+                print("Is the user: \(self.user.username) following: \(isFollowing)")
                 buttonType = .follow(isFollowing: isFollowing)
             }
         }
@@ -264,18 +264,20 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
 
 extension ProfileViewController: ProfileHeaderCountViewDelegate {
     func profileHeaderCountViewDidTapFollowers(_ containerView: ProfileHeaderCountView) {
-
+        let vc = ListViewController(type: .followers(user: user))
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func profileHeaderCountViewDidTapFollowing(_ containerView: ProfileHeaderCountView) {
-        
+        let vc = ListViewController(type: .following(user: user))
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func profileHeaderCountViewDidTapFollowPosts(_ containerView: ProfileHeaderCountView) {
         guard posts.count >= 18 else {
             return
         }
-        collectionView?.setContentOffset(CGPoint(x: 0, y: view.width * 0.7), animated: true)
+        collectionView?.setContentOffset(CGPoint(x: 0, y: view.width * 0.4), animated: true)
     }
     
     func profileHeaderCountViewDidTapFollowEditProfile(_ containerView: ProfileHeaderCountView) {

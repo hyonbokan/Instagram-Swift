@@ -129,7 +129,7 @@ final class NotificationsViewController: UIViewController, UITableViewDelegate, 
                 )
             }
         }
-        print(viewModels.count)
+//        print(viewModels.count)
         if viewModels.isEmpty {
             noActivityLabel.isHidden = false
             tableView.isHidden = true
