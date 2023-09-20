@@ -31,36 +31,54 @@ class NewHomeViewController: UIViewController {
         guard let username = UserDefaults.standard.string(forKey: "username") else {
             return
         }
-
-        DatabaseManager.shared.posts(for: username) { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let posts):
-                    let group = DispatchGroup()
-
-                    posts.forEach { model in
-                        group.enter()
-                        self?.createViewModel(
-                            model: model,
-                            username: username,
-                            completion: { success in
-                                defer {
-                                    group.leave()
-                                }
-                                if !success {
-                                    print("failed to build VM")
-                                }
+        let userGroup = DispatchGroup()
+        userGroup.enter()
+        DatabaseManager.shared.following(for: username) { usernames in
+            defer {
+                userGroup.leave()
+            }
+            let users = usernames + [username]
+//            print(users)
+            for current in users  {
+                userGroup.enter()
+                DatabaseManager.shared.posts(for: current) { [weak self] result in
+                    DispatchQueue.main.async {
+                        switch result {
+                        case .success(let posts):
+                            
+                            let group = DispatchGroup()
+                            
+                            posts.forEach { model in
+                                group.enter()
+                                self?.createViewModel(
+                                    model: model,
+                                    username: username,
+                                    completion: { success in
+                                        defer {
+                                            group.leave()
+                                        }
+                                        if !success {
+                                            print("failed to build VM")
+                                        }
+                                    }
+                                )
                             }
-                        )
+                            group.notify(queue: .main) {
+                                userGroup.leave()
+                            }
+                        case .failure(let error):
+                            userGroup.leave()
+                            print(error)
+                        }
                     }
-                    group.notify(queue: .main) {
-                        self?.collectionView?.reloadData()
-                    }
-                case .failure(let error):
-                    print(error)
                 }
             }
         }
+        
+        userGroup.notify(queue: .main) {
+            self.collectionView?.reloadData()
+        }
+        
     }
     
     private func createViewModel(
