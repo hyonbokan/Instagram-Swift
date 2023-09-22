@@ -33,41 +33,32 @@ class NewHomeViewController: UIViewController {
         }
         let userGroup = DispatchGroup()
         userGroup.enter()
+        
+        var allPosts: [(post: Post, owner: String)] = []
+        
         DatabaseManager.shared.following(for: username) { usernames in
             defer {
                 userGroup.leave()
             }
             let users = usernames + [username]
-//            print(users)
+            print("Users: \(users)")
             for current in users  {
                 userGroup.enter()
-                DatabaseManager.shared.posts(for: current) { [weak self] result in
+                
+                DatabaseManager.shared.posts(for: current) { result in
                     DispatchQueue.main.async {
+                        defer {
+                            userGroup.leave()
+                        }
+                        
                         switch result {
                         case .success(let posts):
+                            print("\(username) Post count: \(posts.count)")
+                            allPosts.append(contentsOf: posts.compactMap({
+                                (post: $0, owner: current)
+                            }))
                             
-                            let group = DispatchGroup()
-                            
-                            posts.forEach { model in
-                                group.enter()
-                                self?.createViewModel(
-                                    model: model,
-                                    username: username,
-                                    completion: { success in
-                                        defer {
-                                            group.leave()
-                                        }
-                                        if !success {
-                                            print("failed to build VM")
-                                        }
-                                    }
-                                )
-                            }
-                            group.notify(queue: .main) {
-                                userGroup.leave()
-                            }
                         case .failure(let error):
-                            userGroup.leave()
                             print(error)
                         }
                     }
@@ -76,9 +67,29 @@ class NewHomeViewController: UIViewController {
         }
         
         userGroup.notify(queue: .main) {
-            self.collectionView?.reloadData()
+            let sorted = allPosts.sorted(by: {
+                return $0.post.date > $1.post.date
+            })
+            let group = DispatchGroup()
+            sorted.forEach { model in
+                group.enter()
+                self.createViewModel(
+                    model: model.post,
+                    username: model.owner,
+                    completion: { success in
+                        defer {
+                            group.leave()
+                        }
+                        if !success {
+                            print("failed to create VM")
+                        }
+                    }
+                )
+            }
+            group.notify(queue: .main) {
+                self.collectionView?.reloadData()
+            }
         }
-        
     }
     
     private func createViewModel(
@@ -86,7 +97,6 @@ class NewHomeViewController: UIViewController {
         username: String,
         completion: @escaping (Bool) -> Void
     ) {
-        
         StorageManager.shared.profilePictureURL(for: username) { [weak self] profilePictureURL in
             guard let postUrl = URL(string: model.postUrlString),
                   let profilePhotoUrl = profilePictureURL else {
