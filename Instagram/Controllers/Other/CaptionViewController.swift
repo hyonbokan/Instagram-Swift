@@ -101,6 +101,9 @@ class CaptionViewController: UIViewController, UITextViewDelegate {
                     self?.tabBarController?.tabBar.isHidden = false
                     self?.tabBarController?.selectedIndex = 0
                     self?.navigationController?.popToRootViewController(animated: false)
+                    
+                    // Refer the extension file
+                    NotificationCenter.default.post(name: .didPostNotification, object: nil)
                 }
             }
         }

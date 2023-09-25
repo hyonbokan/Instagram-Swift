@@ -83,3 +83,6 @@ extension Encodable {
     }
 }
 
+extension Notification.Name {
+    static let didPostNotification = Notification.Name("didPostNotification")
+}
