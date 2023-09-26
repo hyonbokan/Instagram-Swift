@@ -296,7 +296,7 @@ extension NewHomeViewController: UICollectionViewDelegate, UICollectionViewDataS
                 fatalError()
             }
             cell.delegate = self
-            cell.configure(with: viewModel)
+            cell.configure(with: viewModel, index: indexPath.section)
             return cell
             
         case .post(let viewModel):
@@ -318,7 +318,7 @@ extension NewHomeViewController: UICollectionViewDelegate, UICollectionViewDataS
                  fatalError()
              }
             cell.delegate = self
-            cell.configure(with: viewModel)
+            cell.configure(with: viewModel, index: indexPath.section)
             return cell
             
         case .likeCount(let viewModel):
@@ -357,11 +357,24 @@ extension NewHomeViewController: UICollectionViewDelegate, UICollectionViewDataS
 }
 
 extension NewHomeViewController: PosterCollectionViewCellDelegate {
-    func posterCollectionViewCellDidTapMore(_ cell: PosterCollectionViewCell) {
+    func posterCollectionViewCellDidTapMore(_ cell: PosterCollectionViewCell, index: Int) {
         let sheet = UIAlertController(title: "Post Actions", message: nil, preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        sheet.addAction(UIAlertAction(title: "Share Post", style: .default, handler: { _ in
-            
+        sheet.addAction(UIAlertAction(title: "Share Post", style: .default, handler: { [weak self] _ in
+            DispatchQueue.main.async {
+                let section = self?.viewModels[index] ?? []
+                section.forEach { cellType in
+                    switch cellType {
+                    case .post(let viewModel):
+                        let vc = UIActivityViewController(
+                            activityItems: ["Sharing from Instagram", viewModel.postURL],
+                            applicationActivities: [])
+                        self?.present(vc, animated: true)
+                    default:
+                        break
+                    }
+                }
+            }
         }))
         sheet.addAction(UIAlertAction(title: "Report Post", style: .destructive, handler: { _ in
             
@@ -383,19 +396,29 @@ extension NewHomeViewController: PostCollectionViewCellDelegate {
 }
 
 extension NewHomeViewController: PostActionsCollectionViewCellDelegate {
-    func postActionsCollectionViewCellDidTapLike(_ cell: PostActionsCollectionViewCell, isLiked: Bool) {
+    func postActionsCollectionViewCellDidTapLike(_ cell: PostActionsCollectionViewCell, isLiked: Bool, index: Int) {
         // call DB to update like state
     }
     
-    func postActionsCollectionViewCellDidTapComment(_ cell: PostActionsCollectionViewCell) {
+    func postActionsCollectionViewCellDidTapComment(_ cell: PostActionsCollectionViewCell, index: Int) {
 //        let vc = PostViewController(post: )
 //        vc.title = "Post"
 //        navigationController?.pushViewController(vc, animated: true)
     }
     
-    func postActionsCollectionViewCellDidTapShare(_ cell: PostActionsCollectionViewCell) {
-        let vc = UIActivityViewController(activityItems: ["Sharing from Instagram"], applicationActivities: [])
-        present(vc, animated: true)
+    func postActionsCollectionViewCellDidTapShare(_ cell: PostActionsCollectionViewCell, index: Int) {
+        let section = viewModels[index]
+        section.forEach { cellType in
+            switch cellType {
+            case .post(let viewModel):
+                let vc = UIActivityViewController(
+                    activityItems: ["Sharing from Instagram", viewModel.postURL],
+                    applicationActivities: [])
+                present(vc, animated: true)
+            default:
+                break
+            }
+        }
     }
 }
 
