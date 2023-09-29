@@ -15,6 +15,8 @@ class NewHomeViewController: UIViewController {
     
     private var observer: NSObjectProtocol?
     
+    private var allPosts: [(post: Post, owner: String)] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -75,6 +77,7 @@ class NewHomeViewController: UIViewController {
         
         userGroup.notify(queue: .main) {
             let group = DispatchGroup()
+            self.allPosts = allPosts
             allPosts.forEach { model in
                 group.enter()
                 self.createViewModel(
@@ -91,14 +94,20 @@ class NewHomeViewController: UIViewController {
                 )
             }
             group.notify(queue: .main) {
-                self.sortViewModels()
+                self.sortData()
                 self.collectionView?.reloadData()
             }
         }
     }
     
-    private func sortViewModels() {
-        self.viewModels = self.viewModels.sorted(by: { first, second in
+    private func sortData() {
+        allPosts = allPosts.sorted(by: { first, second in
+            let date1 = first.post.date
+            let date2 = second.post.date
+            return date1 > date2
+        })
+        
+        viewModels = viewModels.sorted(by: { first, second in
             var date1: Date?
             var date2: Date?
             first.forEach { type in
@@ -117,9 +126,11 @@ class NewHomeViewController: UIViewController {
                     break
                 }
             }
+
             if let date1 = date1, let date2 = date2 {
                 return date1 > date2
             }
+
             return false
         })
     }
@@ -401,9 +412,10 @@ extension NewHomeViewController: PostActionsCollectionViewCellDelegate {
     }
     
     func postActionsCollectionViewCellDidTapComment(_ cell: PostActionsCollectionViewCell, index: Int) {
-//        let vc = PostViewController(post: )
-//        vc.title = "Post"
-//        navigationController?.pushViewController(vc, animated: true)
+        let tuple = allPosts[index]
+        let vc = PostViewController(post: tuple.post, owner: tuple.owner)
+        vc.title = "Post"
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func postActionsCollectionViewCellDidTapShare(_ cell: PostActionsCollectionViewCell, index: Int) {

@@ -205,7 +205,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let post = posts[indexPath.row]
-        let vc = PostViewController(post: post)
+        let vc = PostViewController(post: post, owner: user.username)
         navigationController?.pushViewController(vc, animated: true)
     }
 }
