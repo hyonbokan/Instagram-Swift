@@ -20,6 +20,8 @@ class PostViewController: UIViewController {
     
     private var viewModels: [HomeFeedCellType] = []
     
+    private let commentBarView = CommentBarView()
+    
     // MARK: - Init
     
     // UserPost optional is for the test
@@ -44,6 +46,8 @@ class PostViewController: UIViewController {
         title = "Post"
         view.backgroundColor = .systemBackground
         configureCollectionView()
+        view.addSubview(commentBarView)
+        commentBarView.delegate = self
         fetchPost()
         
     }
@@ -51,6 +55,12 @@ class PostViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionView?.frame = view.bounds
+        commentBarView.frame = CGRect(
+            x: 0,
+            y: view.height-view.safeAreaInsets.bottom-88,
+            width: view.width,
+            height: 70
+        )
     }
     
     private func fetchPost() {
@@ -304,6 +314,24 @@ extension PostViewController: UICollectionViewDelegate, UICollectionViewDataSour
              cell.configure(with: viewModel)
              return cell
         }
+    }
+}
+extension PostViewController:CommentBarViewDelegate {
+    func commentBarViewDidTapDone(_ commentBarView: CommentBarView, withText text: String) {
+        guard let currentUsername = UserDefaults.standard.string(forKey: "username") else { return }
+        
+        DatabaseManager.shared.createComments(
+            comment: Comment(
+                username: currentUsername,
+                comment: text,
+                dateString: String.date(from: Date()) ?? ""
+            ),
+            postID: post.id,
+            owner: owner) { success in
+                DispatchQueue.main.async {
+                    guard success else { return }
+                }
+            }
     }
 }
 
