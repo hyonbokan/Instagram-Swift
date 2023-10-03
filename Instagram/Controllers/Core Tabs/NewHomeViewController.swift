@@ -23,7 +23,10 @@ class NewHomeViewController: UIViewController {
         configureCollectionView()
         fetchPosts()
         
-        observer = NotificationCenter.default.addObserver(forName: .didPostNotification, object: nil, queue: .main
+        observer = NotificationCenter.default.addObserver(
+            forName: .didPostNotification,
+            object: nil,
+            queue: .main
         ) { [weak self] _ in
             self?.viewModels.removeAll()
             self?.fetchPosts()
@@ -50,10 +53,9 @@ class NewHomeViewController: UIViewController {
                 userGroup.leave()
             }
             let users = usernames + [username]
-            print("Users: \(users)")
+            print("\nUsers: \(users)\n")
             for current in users  {
                 userGroup.enter()
-                
                 DatabaseManager.shared.posts(for: current) { result in
                     DispatchQueue.main.async {
                         defer {
@@ -62,13 +64,14 @@ class NewHomeViewController: UIViewController {
                         
                         switch result {
                         case .success(let posts):
-                            print("\(username) Post count: \(posts.count)")
+                            print("\n\(current) Post count: \(posts.count)\n")
                             allPosts.append(contentsOf: posts.compactMap({
                                 (post: $0, owner: current)
                             }))
                             
                         case .failure(let error):
                             print(error)
+                            break
                         }
                     }
                 }
@@ -140,11 +143,14 @@ class NewHomeViewController: UIViewController {
         username: String,
         completion: @escaping (Bool) -> Void
     ) {
+        guard let currentUsername = UserDefaults.standard.string(forKey: "username") else { return }
         StorageManager.shared.profilePictureURL(for: username) { [weak self] profilePictureURL in
             guard let postUrl = URL(string: model.postUrlString),
                   let profilePhotoUrl = profilePictureURL else {
                 return
             }
+            
+            let isLiked = model.likers.contains(currentUsername)
             
             let postData: [HomeFeedCellType] = [
                 .poster(viewModel: PosterCollectionViewCellViewModel(
@@ -157,11 +163,11 @@ class NewHomeViewController: UIViewController {
                     )
                 ),
                 .actions(viewModel: PostActionsCollectionViewCellViewModel(
-                    isLiked: false
+                    isLiked: isLiked
                     )
                 ),
                 .likeCount(viewModel: PostLikesCollectionViewCellViewModel(
-                    likers: []
+                    likers: model.likers
                     )
                 ),
                 .caption(viewModel: PostCaptionCollectionViewCellViewModel(
@@ -318,7 +324,7 @@ extension NewHomeViewController: UICollectionViewDelegate, UICollectionViewDataS
                  fatalError()
              }
             cell.delegate = self
-            cell.configure(with: viewModel)
+            cell.configure(with: viewModel, index: indexPath.section)
             return cell
             
         case .actions(let viewModel):
@@ -340,7 +346,7 @@ extension NewHomeViewController: UICollectionViewDelegate, UICollectionViewDataS
                  fatalError()
              }
             cell.delegate = self
-            cell.configure(with: viewModel)
+            cell.configure(with: viewModel, index: indexPath.section)
             return cell
             
         case .caption(let viewModel):
@@ -401,18 +407,41 @@ extension NewHomeViewController: PosterCollectionViewCellDelegate {
 }
 
 extension NewHomeViewController: PostCollectionViewCellDelegate {
-    func postCollectionViewCellDidLike(_ cell: PostCollectionViewCell) {
-        print("did tap to like")
+    func postCollectionViewCellDidLike(_ cell: PostCollectionViewCell, index: Int) {
+        let tuple = allPosts[index]
+        DatabaseManager.shared.updateLike(
+            state: .like,
+            postID: tuple.post.id,
+            owner: tuple.owner
+        ) { success in
+            guard success else {
+                return
+            }
+            print("Failed to like")
+        }
     }
 }
 
 extension NewHomeViewController: PostActionsCollectionViewCellDelegate {
     func postActionsCollectionViewCellDidTapLike(_ cell: PostActionsCollectionViewCell, isLiked: Bool, index: Int) {
         // call DB to update like state
+        let tuple = allPosts[index]
+        DatabaseManager.shared.updateLike(
+            state: isLiked ? .like : .unlike,
+            postID: tuple.post.id,
+            owner: tuple.owner
+        ) { success in
+            guard success else {
+                return
+            }
+            print("Failed to like")
+        }
     }
     
     func postActionsCollectionViewCellDidTapComment(_ cell: PostActionsCollectionViewCell, index: Int) {
+        print("All posts: \(allPosts)")
         let tuple = allPosts[index]
+//        print("\npost tuple: \(tuple)\n")
         let vc = PostViewController(post: tuple.post, owner: tuple.owner)
         vc.title = "Post"
         navigationController?.pushViewController(vc, animated: true)
@@ -435,9 +464,8 @@ extension NewHomeViewController: PostActionsCollectionViewCellDelegate {
 }
 
 extension NewHomeViewController: PostLikesCollectionViewCellDelegate {
-    func postLikesCollectionViewCellDidTapLikeCount(_ cell: PostLikesCollectionViewCell) {
-        let vc = ListViewController(type: .likers(usernames: []))
-        vc.title = "Liked By"
+    func postLikesCollectionViewCellDidTapLikeCount(_ cell: PostLikesCollectionViewCell, index: Int) {
+        let vc = ListViewController(type: .likers(usernames: allPosts[index].post.likers))
         navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -39,6 +39,7 @@
 		BD0991172A90DE3D001DCE05 /* ProfileInfoHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0991162A90DE3D001DCE05 /* ProfileInfoHeaderCollectionReusableView.swift */; };
 		BD0991192A90DE71001DCE05 /* ProfileTabsCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0991182A90DE71001DCE05 /* ProfileTabsCollectionReusableView.swift */; };
 		BD0E8C4C2A8BC254008729E2 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0E8C4B2A8BC254008729E2 /* AuthManager.swift */; };
+		BD0F47AD2ACBBBC1001E569E /* SinglePostCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD0F47AC2ACBBBC1001E569E /* SinglePostCellType.swift */; };
 		BD11AEA82AA1D1CD002553E3 /* PosterCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD11AEA72AA1D1CD002553E3 /* PosterCollectionViewCellViewModel.swift */; };
 		BD11AEAA2AA1D256002553E3 /* PostCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD11AEA92AA1D256002553E3 /* PostCollectionViewCellViewModel.swift */; };
 		BD11AEAC2AA1D293002553E3 /* PostActionsCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD11AEAB2AA1D293002553E3 /* PostActionsCollectionViewCellViewModel.swift */; };
@@ -113,6 +114,7 @@
 		BD0991162A90DE3D001DCE05 /* ProfileInfoHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		BD0991182A90DE71001DCE05 /* ProfileTabsCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTabsCollectionReusableView.swift; sourceTree = "<group>"; };
 		BD0E8C4B2A8BC254008729E2 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		BD0F47AC2ACBBBC1001E569E /* SinglePostCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePostCellType.swift; sourceTree = "<group>"; };
 		BD11AEA72AA1D1CD002553E3 /* PosterCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PosterCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
 		BD11AEA92AA1D256002553E3 /* PostCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
 		BD11AEAB2AA1D293002553E3 /* PostActionsCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostActionsCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
@@ -356,6 +358,7 @@
 				BDC2BF042AB44E3000E6A80C /* UserInfo.swift */,
 				BD08D18B2AC5614700DD2E1E /* SettingsModels.swift */,
 				BD1D775C2AC7A9EA0085800D /* Comment.swift */,
+				BD0F47AC2ACBBBC1001E569E /* SinglePostCellType.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -510,6 +513,7 @@
 				9ED5F3C92A947AA100670ECD /* NoNotificationsView.swift in Sources */,
 				9ED5F3CC2A947DC800670ECD /* FollowNotificationTableViewCell.swift in Sources */,
 				BD11AEB22AA1D381002553E3 /* PostDateTimeCollectionViewCellViewModel.swift in Sources */,
+				BD0F47AD2ACBBBC1001E569E /* SinglePostCellType.swift in Sources */,
 				BDD6A6F02A9BA2D700BCEA92 /* HapticsManager.swift in Sources */,
 				9E102CA82AB16AE900695050 /* ProfileHeaderViewModel.swift in Sources */,
 				9E0452CB2A933094003858DB /* ListUserTableViewCell.swift in Sources */,

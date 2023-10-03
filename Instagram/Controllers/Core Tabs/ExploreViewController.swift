@@ -109,7 +109,7 @@ class ExploreViewController: UIViewController, UISearchResultsUpdating {
     
     private func fetchData() {
         DatabaseManager.shared.explorePosts { [weak self] posts in
-            print("\n\n\n Posts in database: \(posts.count)")
+//            print("\n\n\n Posts in database: \(posts.count)")
             DispatchQueue.main.async {
                 self?.posts = posts
                 self?.collectionView.reloadData()
