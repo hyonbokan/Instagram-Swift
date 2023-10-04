@@ -7,6 +7,7 @@
 
 import UIKit
 import FirebaseCore
+import Appirater
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,6 +15,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        Appirater.appLaunched(true)
+        //set the real ID
+        Appirater.setAppId("2412421522")
+        Appirater.setDebug(false)
+        Appirater.setDaysUntilPrompt(7)
         
         FirebaseApp.configure()
         
@@ -32,6 +39,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        NotificationManager.shared.create(notification: model, for: "KhenBo")
         
         return true
+    }
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        Appirater.appEnteredForeground(true)
     }
 
     // MARK: UISceneSession Lifecycle

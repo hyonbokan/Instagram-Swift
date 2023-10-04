@@ -25,7 +25,7 @@ final class NotificationsViewController: UIViewController, UITableViewDelegate, 
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.isHidden = true
         tableView.register(LikeNotificationTableViewCell.self, forCellReuseIdentifier: LikeNotificationTableViewCell.indentifier)
-        tableView.register(FollowNotificationTableViewCell.self, forCellReuseIdentifier: FollowNotificationTableViewCell.indentifier)
+        tableView.register(FollowNotificationTableViewCell.self, forCellReuseIdentifier: FollowNotificationTableViewCell.identifier)
         tableView.register(CommentNotficationTableViewCell.self, forCellReuseIdentifier: CommentNotficationTableViewCell.indentifier)
         return tableView
     }()
@@ -191,7 +191,7 @@ final class NotificationsViewController: UIViewController, UITableViewDelegate, 
         switch cellType {
         case .follow(let viewModel):
             guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: FollowNotificationTableViewCell.indentifier,
+                withIdentifier: FollowNotificationTableViewCell.identifier,
                 for: indexPath
             ) as? FollowNotificationTableViewCell else {
                 fatalError()

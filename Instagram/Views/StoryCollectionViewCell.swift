@@ -38,15 +38,10 @@ class StoryCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
         label.sizeToFit()
         label.frame = CGRect(x: 0, y: contentView.height-label.height, width: contentView.width, height: label.height)
-        
+
         let imageSize: CGFloat = contentView.height-label.height-7
         imageView.layer.cornerRadius = imageSize/2
-        imageView.frame = CGRect(
-            x: (contentView.width-imageSize)/2,
-            y: 2,
-            width: imageSize,
-            height: imageSize
-        )
+        imageView.frame = CGRect(x: (contentView.width-imageSize)/2, y: 2, width: imageSize, height: imageSize)
     }
     
     override func prepareForReuse() {

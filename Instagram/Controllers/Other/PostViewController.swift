@@ -11,6 +11,7 @@
  */
 
 import UIKit
+import Appirater
 
 class PostViewController: UIViewController {
     private let post: Post
@@ -55,6 +56,7 @@ class PostViewController: UIViewController {
         fetchPost()
         observeKeyboardChange()
         
+        // Appirater.tryToShowPrompt()
     }
     
     override func viewDidLayoutSubviews() {

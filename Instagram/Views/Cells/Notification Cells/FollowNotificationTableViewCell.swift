@@ -15,7 +15,7 @@ protocol FollowNotificationTableViewCellDelegate: AnyObject {
 
 class FollowNotificationTableViewCell: UITableViewCell {
     
-    static let indentifier = "FollowNotificationTableViewCell"
+    static let identifier = "FollowNotificationTableViewCell"
     
     weak var delegate: FollowNotificationTableViewCellDelegate?
     

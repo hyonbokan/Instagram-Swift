@@ -31,11 +31,17 @@ class NewHomeViewController: UIViewController {
             self?.viewModels.removeAll()
             self?.fetchPosts()
         }
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "message"), style: .plain, target: self, action: #selector(didTapMessage))
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionView?.frame = view.bounds
+    }
+    
+    @objc private func didTapMessage() {
+        
     }
     
     private func fetchPosts() {
@@ -440,7 +446,12 @@ extension NewHomeViewController: PosterCollectionViewCellDelegate {
             }
         }))
         sheet.addAction(UIAlertAction(title: "Report Post", style: .destructive, handler: { _ in
-            
+            AnalyticsManager.shared.logFeedInteraction(.reported)
+            let ac = UIAlertController(title: "Please input the issue you want to report", message: nil, preferredStyle: .alert)
+            ac.addTextField()
+            let action = UIAlertAction(title: "Send", style: .default)
+            ac.addAction(action)
+            self.present(ac, animated: true)
         }))
         
         present(sheet, animated: true)
@@ -454,6 +465,7 @@ extension NewHomeViewController: PosterCollectionViewCellDelegate {
 
 extension NewHomeViewController: PostCollectionViewCellDelegate {
     func postCollectionViewCellDidLike(_ cell: PostCollectionViewCell, index: Int) {
+        AnalyticsManager.shared.logFeedInteraction(.doubleTapToLike)
         let tuple = allPosts[index]
         DatabaseManager.shared.updateLike(
             state: .like,
@@ -470,6 +482,8 @@ extension NewHomeViewController: PostCollectionViewCellDelegate {
 
 extension NewHomeViewController: PostActionsCollectionViewCellDelegate {
     func postActionsCollectionViewCellDidTapLike(_ cell: PostActionsCollectionViewCell, isLiked: Bool, index: Int) {
+        AnalyticsManager.shared.logFeedInteraction(.like)
+        HapticManager.shared.vibrateForSelection()
         // call DB to update like state
         let tuple = allPosts[index]
         DatabaseManager.shared.updateLike(
@@ -485,15 +499,18 @@ extension NewHomeViewController: PostActionsCollectionViewCellDelegate {
     }
     
     func postActionsCollectionViewCellDidTapComment(_ cell: PostActionsCollectionViewCell, index: Int) {
+        AnalyticsManager.shared.logFeedInteraction(.comment)
         print("All posts: \(allPosts)")
         let tuple = allPosts[index]
 //        print("\npost tuple: \(tuple)\n")
+        HapticManager.shared.vibrateForSelection()
         let vc = PostViewController(post: tuple.post, owner: tuple.owner)
         vc.title = "Post"
         navigationController?.pushViewController(vc, animated: true)
     }
     
     func postActionsCollectionViewCellDidTapShare(_ cell: PostActionsCollectionViewCell, index: Int) {
+        AnalyticsManager.shared.logFeedInteraction(.share)
         let section = viewModels[index]
         section.forEach { cellType in
             switch cellType {
@@ -511,6 +528,7 @@ extension NewHomeViewController: PostActionsCollectionViewCellDelegate {
 
 extension NewHomeViewController: PostLikesCollectionViewCellDelegate {
     func postLikesCollectionViewCellDidTapLikeCount(_ cell: PostLikesCollectionViewCell, index: Int) {
+        HapticManager.shared.vibrateForSelection()
         let vc = ListViewController(type: .likers(usernames: allPosts[index].post.likers))
         navigationController?.pushViewController(vc, animated: true)
     }

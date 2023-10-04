@@ -232,13 +232,14 @@ class SignUpViewController: UIViewController, UITextFieldDelegate, UIImagePicker
             DispatchQueue.main.async {
                 switch result {
                 case .success(let user):
-                    
+                    HapticManager.shared.vibrate(for: .success)
                     UserDefaults.standard.setValue(user.email, forKey: "email")
                     UserDefaults.standard.setValue(user.username, forKey: "username")
                     
                     self?.navigationController?.popToRootViewController(animated: true)
                     self?.completion?()
                 case .failure(let error):
+                    HapticManager.shared.vibrate(for: .error)
                     print("\n\nSing Up Error: \(error)")
                 }
             }

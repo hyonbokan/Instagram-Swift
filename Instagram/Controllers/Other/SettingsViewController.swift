@@ -26,13 +26,14 @@ final class SettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(didTapClose))
         configureModels()
         view.backgroundColor = .systemBackground
         view.addSubview(tableView)
         title = "Settings"
         tableView.delegate = self
         tableView.dataSource = self
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(didTapClose))
+        createTableFooter()
     }
     
     @objc func didTapClose() {
@@ -120,25 +121,22 @@ final class SettingsViewController: UIViewController {
         )
         
     }
+    
+    private func createTableFooter() {
+        let footer = UIView(frame: CGRect(x: 0, y: 0, width: view.width, height: 50))
+        footer.clipsToBounds = true
+        
+        let button = UIButton(frame: footer.bounds)
+        footer.addSubview(button)
+        button.setTitle("Sign Out", for: .normal)
+        button.setTitleColor(.systemRed, for: .normal)
+        button.addTarget(self, action: #selector(didTapSignOut), for: .touchUpInside)
+        
+        tableView.tableFooterView = footer
+    }
+    
     enum SettingURLType {
         case terms, privacy, help
-    }
-    
-    private func didTapEditProfile() {
-        // Show share sheet to invite friends
-        let vc = EditProfileViewController()
-        vc.title = "Edit Profile"
-        let navVC = UINavigationController(rootViewController: vc)
-        navVC.modalPresentationStyle = .fullScreen
-        present(navVC, animated: true)
-    }
-    
-    private func didTapInviteFriends() {
-        
-    }
-    
-    private func didTapSaveOriginalPosts() {
-        
     }
     
     private func openURL(type: SettingURLType) {
@@ -159,7 +157,7 @@ final class SettingsViewController: UIViewController {
         
     }
     
-    private func didTapSignOut() {
+    @objc private func didTapSignOut() {
         let actionSheet = UIAlertController(title: "Sign Out", message: "Are you sure you want to log out?", preferredStyle: .actionSheet)
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         actionSheet.addAction(UIAlertAction(title: "Sign Out", style: .destructive, handler: { [weak self] _ in
