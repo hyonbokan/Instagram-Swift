@@ -12,6 +12,9 @@
 		9E102CA82AB16AE900695050 /* ProfileHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E102CA72AB16AE900695050 /* ProfileHeaderViewModel.swift */; };
 		9E102CAA2AB190BF00695050 /* ProfileHeaderCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E102CA92AB190BF00695050 /* ProfileHeaderCountView.swift */; };
 		9E1970ED2A8C7CB400EEFB14 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1970EC2A8C7CB400EEFB14 /* Extensions.swift */; };
+		9E98B8312ACCED6C00E06FDA /* StoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E98B8302ACCED6C00E06FDA /* StoryHeaderView.swift */; };
+		9E98B8332ACCEF5200E06FDA /* StoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E98B8322ACCEF5200E06FDA /* StoriesViewModel.swift */; };
+		9E98B8352ACCF4F200E06FDA /* StoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E98B8342ACCF4F200E06FDA /* StoryCollectionViewCell.swift */; };
 		9E9A8A5E2AB82746000B98B7 /* IGFollowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E9A8A5D2AB82746000B98B7 /* IGFollowButton.swift */; };
 		9E9A8A602AB94962000B98B7 /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E9A8A5F2AB94961000B98B7 /* ListViewController.swift */; };
 		9E9A8A622AB949C5000B98B7 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E9A8A612AB949C5000B98B7 /* Models.swift */; };
@@ -88,6 +91,9 @@
 		9E102CA72AB16AE900695050 /* ProfileHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewModel.swift; sourceTree = "<group>"; };
 		9E102CA92AB190BF00695050 /* ProfileHeaderCountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderCountView.swift; sourceTree = "<group>"; };
 		9E1970EC2A8C7CB400EEFB14 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		9E98B8302ACCED6C00E06FDA /* StoryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryHeaderView.swift; sourceTree = "<group>"; };
+		9E98B8322ACCEF5200E06FDA /* StoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoriesViewModel.swift; sourceTree = "<group>"; };
+		9E98B8342ACCF4F200E06FDA /* StoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		9E9A8A5D2AB82746000B98B7 /* IGFollowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IGFollowButton.swift; sourceTree = "<group>"; };
 		9E9A8A5F2AB94961000B98B7 /* ListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
 		9E9A8A612AB949C5000B98B7 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
@@ -222,6 +228,7 @@
 				9E102CA72AB16AE900695050 /* ProfileHeaderViewModel.swift */,
 				BD49C7C42AB2B70F003E61D7 /* ProfileHeaderCountViewModel.swift */,
 				9EE5405D2AB95FC700158395 /* ListUserTableViewCellViewModel.swift */,
+				9E98B8322ACCEF5200E06FDA /* StoriesViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -294,6 +301,8 @@
 				9E102CA92AB190BF00695050 /* ProfileHeaderCountView.swift */,
 				9E9A8A5D2AB82746000B98B7 /* IGFollowButton.swift */,
 				BD1D775E2AC7ACC50085800D /* CommentBarView.swift */,
+				9E98B8302ACCED6C00E06FDA /* StoryHeaderView.swift */,
+				9E98B8342ACCF4F200E06FDA /* StoryCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -540,7 +549,9 @@
 				BD11AEBD2AA21E84002553E3 /* PostLikesCollectionViewCell.swift in Sources */,
 				9EB02EB72A9C73CA004D00AB /* IGTextField.swift in Sources */,
 				BD11AEAC2AA1D293002553E3 /* PostActionsCollectionViewCellViewModel.swift in Sources */,
+				9E98B8352ACCF4F200E06FDA /* StoryCollectionViewCell.swift in Sources */,
 				9ED5F3CE2A947DE300670ECD /* LikeNotificationTableViewCell.swift in Sources */,
+				9E98B8312ACCED6C00E06FDA /* StoryHeaderView.swift in Sources */,
 				BD26D5B32A8B7C0A007B7F5B /* SearchResultsViewController.swift in Sources */,
 				BDE09F222AA49A0B003DCA40 /* PhotoCollectionViewCell.swift in Sources */,
 				BDEB78E12AAC817D00668D2E /* Notification.swift in Sources */,
@@ -551,6 +562,7 @@
 				9EE5405C2AB94E0C00158395 /* OldEditProfileViewController.swift in Sources */,
 				9E102CA62AB16A8200695050 /* ProfileHeaderCollectionReusableView.swift in Sources */,
 				BD11AEBF2AA21E93002553E3 /* PostCaptionCollectionViewCell.swift in Sources */,
+				9E98B8332ACCEF5200E06FDA /* StoriesViewModel.swift in Sources */,
 				BD0E8C4C2A8BC254008729E2 /* AuthManager.swift in Sources */,
 				BD26D5852A8B7A76007B7F5B /* SceneDelegate.swift in Sources */,
 				9EF3994E2AA6C6B40058F383 /* Post.swift in Sources */,

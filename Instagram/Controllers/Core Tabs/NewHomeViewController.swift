@@ -250,6 +250,20 @@ class NewHomeViewController: UIViewController {
             
             // Section
             let section = NSCollectionLayoutSection(group: group)
+            // Stories UI section
+            if index == 0 {
+                section.boundarySupplementaryItems = [
+                    NSCollectionLayoutBoundarySupplementaryItem(
+                        layoutSize: NSCollectionLayoutSize(
+                        widthDimension: .fractionalWidth(1),
+                        heightDimension: .fractionalWidth(0.3)
+                        ),
+                        elementKind: UICollectionView.elementKindSectionHeader,
+                        alignment: .top
+                    )
+                ]
+            }
+
             // adding space between sections
             section.contentInsets = NSDirectionalEdgeInsets(top: 3, leading: 0, bottom: 10, trailing: 0)
             return section
@@ -283,6 +297,13 @@ class NewHomeViewController: UIViewController {
             PostDateTimeCollectionViewCell.self,
             forCellWithReuseIdentifier: PostDateTimeCollectionViewCell.identifier
         )
+        // Stories header. Dequeue it!
+        collectionView.register(
+            StoryHeaderView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: StoryHeaderView.identifier
+        )
+        
         self.collectionView = collectionView
     }
 
@@ -370,6 +391,31 @@ extension NewHomeViewController: UICollectionViewDelegate, UICollectionViewDataS
              cell.configure(with: viewModel)
              return cell
         }
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath
+    ) -> UICollectionReusableView {
+        guard kind == UICollectionView.elementKindSectionHeader,
+              let headerView = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: StoryHeaderView.identifier,
+                for: indexPath
+              ) as? StoryHeaderView else {
+            return UICollectionReusableView()
+        }
+        let viewModel = StoriesViewModel(stories: [
+            Story(username: "story1", image: UIImage(named: "test")),
+            Story(username: "story1", image: UIImage(named: "test")),
+            Story(username: "story1", image: UIImage(named: "test")),
+            Story(username: "story1", image: UIImage(named: "test")),
+            Story(username: "story1", image: UIImage(named: "test")),
+            Story(username: "story1", image: UIImage(named: "test")),
+            Story(username: "story1", image: UIImage(named: "test")),
+        ])
+        headerView.configure(with: viewModel)
+        return headerView
     }
 }
 
