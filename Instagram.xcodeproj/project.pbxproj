@@ -243,6 +243,15 @@
 			path = ProfileCollectionViewHeaders;
 			sourceTree = "<group>";
 		};
+		BD0D157B2ACD63010012DE08 /* CustomElements */ = {
+			isa = PBXGroup;
+			children = (
+				9E9A8A5D2AB82746000B98B7 /* IGFollowButton.swift */,
+				9EB02EB62A9C73CA004D00AB /* IGTextField.swift */,
+			);
+			path = CustomElements;
+			sourceTree = "<group>";
+		};
 		BD11AEA62AA1D195002553E3 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -319,17 +328,15 @@
 		BD26D5972A8B7A8F007B7F5B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				BD0D157B2ACD63010012DE08 /* CustomElements */,
 				BD0991132A90DDA8001DCE05 /* ProfileCollectionViewHeaders */,
 				9ECBED572A8F5285006460C9 /* Cells */,
 				BD26D58B2A8B7A77007B7F5B /* Assets.xcassets */,
-				9E9A8A5F2AB94961000B98B7 /* ListViewController.swift */,
 				9ED5F3C82A947AA100670ECD /* NoNotificationsView.swift */,
 				9EB02EB22A9C62B7004D00AB /* SignInHeaderView.swift */,
-				9EB02EB62A9C73CA004D00AB /* IGTextField.swift */,
 				BD26D58D2A8B7A77007B7F5B /* LaunchScreen.storyboard */,
 				9E102CA52AB16A8200695050 /* ProfileHeaderCollectionReusableView.swift */,
 				9E102CA92AB190BF00695050 /* ProfileHeaderCountView.swift */,
-				9E9A8A5D2AB82746000B98B7 /* IGFollowButton.swift */,
 				BD1D775E2AC7ACC50085800D /* CommentBarView.swift */,
 				9E98B8302ACCED6C00E06FDA /* StoryHeaderView.swift */,
 				9E98B8342ACCF4F200E06FDA /* StoryCollectionViewCell.swift */,
@@ -364,6 +371,7 @@
 		BD26D5A42A8B7B8B007B7F5B /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				9E9A8A5F2AB94961000B98B7 /* ListViewController.swift */,
 				9E9A8A662AB94B7F000B98B7 /* PostViewController.swift */,
 				BD3A085D2AA4641D002B6AA8 /* PostEditViewController.swift */,
 				BD26D5AE2A8B7BEB007B7F5B /* SettingsViewController.swift */,

@@ -33,6 +33,8 @@ class NewHomeViewController: UIViewController {
         }
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "message"), style: .plain, target: self, action: #selector(didTapMessage))
+//        navigationItem.leftBarButtonItem = UIBarButtonItem
+        
     }
     
     override func viewDidLayoutSubviews() {
