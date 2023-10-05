@@ -16,7 +16,10 @@ pod 'Firebase/Analytics'
 pod 'Firebase/Crashlytics'
 pod 'Firebase/Storage'
 pod 'Firebase/Firestore'
-
+pod 'FBSDKLoginKit'
+pod 'MessageKit'
+pod 'JGProgressHUD'
+pod 'RealmSwift'
 end
 
 # Add post-installation script to set deployment target

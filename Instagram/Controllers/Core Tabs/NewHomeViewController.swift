@@ -17,7 +17,7 @@ class NewHomeViewController: UIViewController {
     
     private var allPosts: [(post: Post, owner: String)] = []
     
-//    private var allStories: 
+    private var allStories: [(story: Story, owner: String)] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +47,6 @@ class NewHomeViewController: UIViewController {
     }
     
     private func fetchPosts() {
-        // test data
         guard let username = UserDefaults.standard.string(forKey: "username") else {
             return
         }
@@ -55,7 +54,7 @@ class NewHomeViewController: UIViewController {
         userGroup.enter()
         
         var allPosts: [(post: Post, owner: String)] = []
-        
+        print("\ncurrent username: \(username)\n")
         DatabaseManager.shared.following(for: username) { usernames in
             defer {
                 userGroup.leave()
@@ -417,6 +416,7 @@ extension NewHomeViewController: UICollectionViewDelegate, UICollectionViewDataS
               ) as? StoryHeaderView else {
             return UICollectionReusableView()
         }
+        
         let viewModel = StoriesViewModel(stories: [
             Story(username: "story1", image: UIImage(named: "test")),
             Story(username: "story1", image: UIImage(named: "test")),
