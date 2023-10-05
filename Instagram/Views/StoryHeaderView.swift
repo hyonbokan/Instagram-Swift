@@ -23,7 +23,25 @@ class StoryHeaderView: UICollectionReusableView, UICollectionViewDelegate, UICol
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(StoryCollectionViewCell.self,
                                 forCellWithReuseIdentifier: StoryCollectionViewCell.identifier)
+//        collectionView.backgroundColor = .red
         return collectionView
+    }()
+    
+    private let logoImage: UIImageView = {
+        let logoImage = UIImageView()
+        logoImage.image = UIImage(named: "logo_text")
+        logoImage.contentMode = .scaleAspectFit
+//        logoImage.backgroundColor = .blue
+        return logoImage
+    }()
+    
+    private let messageButton: UIButton = {
+        let messageButton = UIButton()
+        messageButton.tintColor = .label
+        let image = UIImage(systemName: "message", withConfiguration: UIImage.SymbolConfiguration(pointSize: 25))
+        messageButton.setImage(image, for: .normal)
+//        messageButton.backgroundColor = .orange
+        return messageButton
     }()
     // MARK: - Init
     
@@ -31,6 +49,9 @@ class StoryHeaderView: UICollectionReusableView, UICollectionViewDelegate, UICol
         super.init(frame: frame)
 //        backgroundColor = .red
         addSubview(collectionView)
+        addSubview(logoImage)
+        addSubview(messageButton)
+        messageButton.addTarget(self, action: #selector(didTapMessage), for: .touchUpInside)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -39,11 +60,34 @@ class StoryHeaderView: UICollectionReusableView, UICollectionViewDelegate, UICol
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        collectionView.frame = CGRect(x: 0, y: 0, width: width, height: height-10)
+    @objc private func didTapMessage() {
+        print("message tapped")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        logoImage.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: width/3,
+            height: height/4
+        )
+        messageButton.frame = CGRect(
+            x: width-50,
+            y: 0,
+            width: 50,
+            height: height/4
+        )
+        
+        collectionView.frame = CGRect(
+            x: 0,
+            y: logoImage.bottom,
+            width: width,
+            height: height*0.7
+        )
+    }
+    
+
     func configure(with viewModel: StoriesViewModel) {
         self.viewModels = viewModel.stories
     }

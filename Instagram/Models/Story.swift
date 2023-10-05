@@ -1,8 +1,8 @@
 //
-//  File.swift
+//  Story.swift
 //  Instagram
 //
-//  Created by dnlab on 2023/10/04.
+//  Created by dnlab on 2023/10/05.
 //
 
 import Foundation

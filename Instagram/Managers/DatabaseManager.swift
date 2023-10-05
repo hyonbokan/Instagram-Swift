@@ -43,7 +43,7 @@ final class DatabaseManager {
             }).sorted(by: {
                 return $0.date > $1.date
             }),
-            error == nil else {
+                  error == nil else {
                 return
             }
             
@@ -195,7 +195,7 @@ final class DatabaseManager {
             .document(identifier)
         ref.getDocument { snapshot, error in
             guard let data = snapshot?.data(),
-                    error == nil else {
+                  error == nil else {
                 completion(nil)
                 return
             }
@@ -218,10 +218,10 @@ final class DatabaseManager {
             completion(false)
             return
         }
-//        let currentFollowers = database
-//            .collection("users")
-//            .document(currentUsername)
-//            .collection("followers")
+        //        let currentFollowers = database
+        //            .collection("users")
+        //            .document(currentUsername)
+        //            .collection("followers")
         
         let currentFollowing = database
             .collection("users")
@@ -233,10 +233,10 @@ final class DatabaseManager {
             .document(targetUsername)
             .collection("followers")
         
-//        let targetUserFollowing = database
-//            .collection("users")
-//            .document(targetUsername)
-//            .collection("following")
+        //        let targetUserFollowing = database
+        //            .collection("users")
+        //            .document(targetUsername)
+        //            .collection("following")
         
         
         
@@ -259,64 +259,64 @@ final class DatabaseManager {
     public func getUserCounts(
         username: String,
         completion: @escaping ((followers: Int, following: Int, posts: Int)) -> Void
-        ){
-            let userRef = database.collection("users")
-                .document(username)
-            
-            var followers = 0
-            var following = 0
-            var posts = 0
-            
-            let group = DispatchGroup()
-            group.enter()
-            group.enter()
-            group.enter()
-            
-            userRef.collection("posts")
-                .getDocuments { snapshot, error in
-                    defer {
-                        group.leave()
-                    }
-                    
-                    guard let count = snapshot?.documents.count, error == nil else {
-                        return
-                    }
-                    posts = count
+    ){
+        let userRef = database.collection("users")
+            .document(username)
+        
+        var followers = 0
+        var following = 0
+        var posts = 0
+        
+        let group = DispatchGroup()
+        group.enter()
+        group.enter()
+        group.enter()
+        
+        userRef.collection("posts")
+            .getDocuments { snapshot, error in
+                defer {
+                    group.leave()
                 }
-            
-            userRef.collection("followers")
-                .getDocuments { snapshot, error in
-                    defer {
-                        group.leave()
-                    }
-                    
-                    guard let count = snapshot?.documents.count, error == nil else {
-                        return
-                    }
-                    followers = count
+                
+                guard let count = snapshot?.documents.count, error == nil else {
+                    return
                 }
-            
-            userRef.collection("following")
-                .getDocuments { snapshot, error in
-                    defer {
-                        group.leave()
-                    }
-                    
-                    guard let count = snapshot?.documents.count, error == nil else {
-                        return
-                    }
-                    following = count
-                }
-            group.notify(queue: .global()) {
-                //tuple
-                let result = (
-                    followers: followers,
-                    following: following,
-                    posts: posts
-                )
-                completion(result)
+                posts = count
             }
+        
+        userRef.collection("followers")
+            .getDocuments { snapshot, error in
+                defer {
+                    group.leave()
+                }
+                
+                guard let count = snapshot?.documents.count, error == nil else {
+                    return
+                }
+                followers = count
+            }
+        
+        userRef.collection("following")
+            .getDocuments { snapshot, error in
+                defer {
+                    group.leave()
+                }
+                
+                guard let count = snapshot?.documents.count, error == nil else {
+                    return
+                }
+                following = count
+            }
+        group.notify(queue: .global()) {
+            //tuple
+            let result = (
+                followers: followers,
+                following: following,
+                posts: posts
+            )
+            completion(result)
         }
+    }
     
     public func isFollowing(
         targetUsername: String,
@@ -427,7 +427,7 @@ final class DatabaseManager {
             completion(error == nil)
         }
     }
-
+    
     
     public func getComments(
         postID: String,
@@ -443,7 +443,7 @@ final class DatabaseManager {
             guard let comments = snapshot?.documents.compactMap({
                 Comment(with: $0.data())
             }),
-                    error == nil else {
+                  error == nil else {
                 completion([])
                 return
             }
@@ -493,5 +493,25 @@ final class DatabaseManager {
             }
         }
     }
-
+    
+//    public func getStories(
+//        storyID: String,
+//        owner: String,
+//        completion: @escaping(Story?) -> Void
+//    ) {
+//        let ref = database
+//            .collection("users")
+//            .document(owner)
+//            .collection("stories")
+//            .document(storyID)
+//        ref.getDocument { snapshot, error in
+//            guard let story = snapshot?.data(),
+//                  error == nil else {
+//                completion(nil)
+//                return
+//            }
+//            completion(story)
+//        }
+//
+//    }
 }

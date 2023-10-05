@@ -17,11 +17,14 @@ class NewHomeViewController: UIViewController {
     
     private var allPosts: [(post: Post, owner: String)] = []
     
+//    private var allStories: 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         configureCollectionView()
         fetchPosts()
+//        fetchStories()
         
         observer = NotificationCenter.default.addObserver(
             forName: .didPostNotification,
@@ -31,9 +34,6 @@ class NewHomeViewController: UIViewController {
             self?.viewModels.removeAll()
             self?.fetchPosts()
         }
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "message"), style: .plain, target: self, action: #selector(didTapMessage))
-//        navigationItem.leftBarButtonItem = UIBarButtonItem
         
     }
     
@@ -144,6 +144,10 @@ class NewHomeViewController: UIViewController {
 
             return false
         })
+    }
+    
+    private func fetchStories() {
+        
     }
     
     private func createViewModel(
@@ -264,7 +268,7 @@ class NewHomeViewController: UIViewController {
                     NSCollectionLayoutBoundarySupplementaryItem(
                         layoutSize: NSCollectionLayoutSize(
                         widthDimension: .fractionalWidth(1),
-                        heightDimension: .fractionalWidth(0.3)
+                        heightDimension: .fractionalWidth(0.4)
                         ),
                         elementKind: UICollectionView.elementKindSectionHeader,
                         alignment: .top
@@ -459,8 +463,9 @@ extension NewHomeViewController: PosterCollectionViewCellDelegate {
         present(sheet, animated: true)
     }
     
-    func posterCollectionViewCellDidTapUsername(_ cell: PosterCollectionViewCell) {
-        let vc = ProfileViewController(user: User(username: "hyonbo", email: "hyonbo@gmail.com"))
+    func posterCollectionViewCellDidTapUsername(_ cell: PosterCollectionViewCell, index: Int) {
+        let tuple = allPosts[index]
+        let vc = ProfileViewController(user: User(username: tuple.owner, email: tuple.owner))
         navigationController?.pushViewController(vc, animated: true)
     }
 }

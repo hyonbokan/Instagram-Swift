@@ -10,7 +10,7 @@ import SDWebImage
 
 protocol PosterCollectionViewCellDelegate: AnyObject {
     func posterCollectionViewCellDidTapMore(_ cell: PosterCollectionViewCell, index: Int)
-    func posterCollectionViewCellDidTapUsername(_ cell: PosterCollectionViewCell)
+    func posterCollectionViewCellDidTapUsername(_ cell: PosterCollectionViewCell, index: Int)
 }
 
 final class PosterCollectionViewCell: UICollectionViewCell {
@@ -64,14 +64,14 @@ final class PosterCollectionViewCell: UICollectionViewCell {
     }
     
     @objc private func didTapUsername() {
-        delegate?.posterCollectionViewCellDidTapUsername(self)
+        delegate?.posterCollectionViewCellDidTapUsername(self, index: index)
     }
     
     
     override func layoutSubviews() {
         super.layoutSubviews()
         let imagePadding: CGFloat = 4
-        let imageSize: CGFloat = contentView.height - (imagePadding * 2)
+        let imageSize: CGFloat = contentView.height - (imagePadding * 4)
         imageView.frame = CGRect(
             x: imagePadding,
             y: imagePadding,

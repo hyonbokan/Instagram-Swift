@@ -418,6 +418,11 @@ extension PostViewController:CommentBarViewDelegate {
 }
 
 extension PostViewController: PosterCollectionViewCellDelegate {
+    func posterCollectionViewCellDidTapUsername(_ cell: PosterCollectionViewCell, index: Int) {
+        let vc = ProfileViewController(user: User(username: owner, email: owner))
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func posterCollectionViewCellDidTapMore(_ cell: PosterCollectionViewCell, index: Int) {
         let sheet = UIAlertController(title: "Post Actions", message: nil, preferredStyle: .actionSheet)
         sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
@@ -440,11 +445,6 @@ extension PostViewController: PosterCollectionViewCellDelegate {
         }))
         
         present(sheet, animated: true)
-    }
-    
-    func posterCollectionViewCellDidTapUsername(_ cell: PosterCollectionViewCell) {
-        let vc = ProfileViewController(user: User(username: "hyonbo", email: "hyonbo@gmail.com"))
-        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

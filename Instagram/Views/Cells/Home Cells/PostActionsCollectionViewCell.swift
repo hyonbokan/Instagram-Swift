@@ -25,7 +25,7 @@ class PostActionsCollectionViewCell: UICollectionViewCell {
     private let likeButton: UIButton = {
         let button = UIButton()
         button.tintColor = .label
-        let image = UIImage(systemName: "suit.heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 44))
+        let image = UIImage(systemName: "suit.heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 40))
         button.setImage(image, for: .normal)
         return button
     }()
@@ -33,7 +33,7 @@ class PostActionsCollectionViewCell: UICollectionViewCell {
     private let commentButton: UIButton = {
         let button = UIButton()
         button.tintColor = .label
-        let image = UIImage(systemName: "message", withConfiguration: UIImage.SymbolConfiguration(pointSize: 44))
+        let image = UIImage(systemName: "message", withConfiguration: UIImage.SymbolConfiguration(pointSize: 40))
         button.setImage(image, for: .normal)
         return button
     }()
@@ -41,7 +41,7 @@ class PostActionsCollectionViewCell: UICollectionViewCell {
     private let shareButton: UIButton = {
         let button = UIButton()
         button.tintColor = .label
-        let image = UIImage(systemName: "paperplane", withConfiguration: UIImage.SymbolConfiguration(pointSize: 44))
+        let image = UIImage(systemName: "paperplane", withConfiguration: UIImage.SymbolConfiguration(pointSize: 40))
         button.setImage(image, for: .normal)
         return button
     }()
@@ -68,11 +68,11 @@ class PostActionsCollectionViewCell: UICollectionViewCell {
     @objc private func didTapLikeButton() {
         // Add animation
         if self.isLiked {
-            let image = UIImage(systemName: "suit.heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 44))
+            let image = UIImage(systemName: "suit.heart", withConfiguration: UIImage.SymbolConfiguration(pointSize: 40))
             likeButton.setImage(image, for: .normal)
             likeButton.tintColor = .label
         } else {
-            let image = UIImage(systemName: "suit.heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 44))
+            let image = UIImage(systemName: "suit.heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 40))
             likeButton.setImage(image, for: .normal)
             likeButton.tintColor = .systemRed
         }
@@ -118,7 +118,7 @@ class PostActionsCollectionViewCell: UICollectionViewCell {
             self.index = index
         isLiked = viewModel.isLiked
         if viewModel.isLiked {
-            let image = UIImage(systemName: "suit.heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 44))
+            let image = UIImage(systemName: "suit.heart.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 40))
             likeButton.setImage(image, for: .normal)
             likeButton.tintColor = .systemRed
         }
