@@ -17,7 +17,7 @@ class NewHomeViewController: UIViewController {
     
     private var allPosts: [(post: Post, owner: String)] = []
     
-    private var allStories: [(story: Story, owner: String)] = []
+    private var storyViewModels: [StoriesViewModel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -145,10 +145,6 @@ class NewHomeViewController: UIViewController {
         })
     }
     
-    private func fetchStories() {
-        
-    }
-    
     private func createViewModel(
         model: Post,
         username: String,
@@ -167,33 +163,42 @@ class NewHomeViewController: UIViewController {
                 .poster(viewModel: PosterCollectionViewCellViewModel(
                     username: username,
                     profilePictureURL: profilePhotoUrl
-                    )
+                )
                 ),
                 .post(viewModel: PostCollectionViewCellViewModel(
                     postURL: postUrl
-                    )
+                )
                 ),
                 .actions(viewModel: PostActionsCollectionViewCellViewModel(
                     isLiked: isLiked
-                    )
+                )
                 ),
                 .likeCount(viewModel: PostLikesCollectionViewCellViewModel(
                     likers: model.likers
-                    )
+                )
                 ),
                 .caption(viewModel: PostCaptionCollectionViewCellViewModel(
                     username: username,
                     caption: model.caption
-                    )
+                )
                 ),
                 .timestamp(viewModel: PostDateTimeCollectionViewCellViewModel(
                     date: DateFormatter.formatter.date(from: model.postedDate) ?? Date()
-                    )
+                )
                 )
             ]
             self?.viewModels.append(postData)
             completion(true)
         }
+        func createStoriesViewModel(
+            model: Story,
+            username: String,
+            completion: @escaping (Bool) -> Void
+        ) {
+            StorageManager.shared.profilePictureURL(for: username) { [weak self] profilePictureURL in
+                let profileImage = model.profileImageUrlString
+        }
+    }
     }
     
     private func configureCollectionView() {
@@ -417,16 +422,19 @@ extension NewHomeViewController: UICollectionViewDelegate, UICollectionViewDataS
             return UICollectionReusableView()
         }
         
-        let viewModel = StoriesViewModel(stories: [
-            Story(username: "story1", image: UIImage(named: "test")),
-            Story(username: "story1", image: UIImage(named: "test")),
-            Story(username: "story1", image: UIImage(named: "test")),
-            Story(username: "story1", image: UIImage(named: "test")),
-            Story(username: "story1", image: UIImage(named: "test")),
-            Story(username: "story1", image: UIImage(named: "test")),
-            Story(username: "story1", image: UIImage(named: "test")),
-        ])
-        headerView.configure(with: viewModel)
+        // get all the users following
+        
+        
+//        let viewModel = StoriesViewModel(stories: [
+//            Story(username: "story1", image: UIImage(named: "test")),
+//            Story(username: "story1", image: UIImage(named: "test")),
+//            Story(username: "story1", image: UIImage(named: "test")),
+//            Story(username: "story1", image: UIImage(named: "test")),
+//            Story(username: "story1", image: UIImage(named: "test")),
+//            Story(username: "story1", image: UIImage(named: "test")),
+//            Story(username: "story1", image: UIImage(named: "test")),
+//        ])
+//        headerView.configure(with: viewModel)
         return headerView
     }
 }

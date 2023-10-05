@@ -493,25 +493,4 @@ final class DatabaseManager {
             }
         }
     }
-    
-//    public func getStories(
-//        storyID: String,
-//        owner: String,
-//        completion: @escaping(Story?) -> Void
-//    ) {
-//        let ref = database
-//            .collection("users")
-//            .document(owner)
-//            .collection("stories")
-//            .document(storyID)
-//        ref.getDocument { snapshot, error in
-//            guard let story = snapshot?.data(),
-//                  error == nil else {
-//                completion(nil)
-//                return
-//            }
-//            completion(story)
-//        }
-//
-//    }
 }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class StoryCollectionViewCell: UICollectionViewCell {
     static let identifier = "StoryCollectionViewCell"
@@ -52,6 +53,6 @@ class StoryCollectionViewCell: UICollectionViewCell {
     
     func configure(with story: Story) {
         label.text = story.username
-        imageView.image = story.image
+        imageView.sd_setImage(with: story.profileImageUrlString, completed: nil)
     }
 }
