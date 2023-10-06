@@ -53,6 +53,6 @@ class StoryCollectionViewCell: UICollectionViewCell {
     
     func configure(with story: Story) {
         label.text = story.username
-        imageView.sd_setImage(with: story.profileImageUrlString, completed: nil)
+        imageView.image = story.image
     }
 }

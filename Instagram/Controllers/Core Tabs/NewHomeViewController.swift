@@ -17,8 +17,6 @@ class NewHomeViewController: UIViewController {
     
     private var allPosts: [(post: Post, owner: String)] = []
     
-    private var storyViewModels: [StoriesViewModel] = []
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -190,15 +188,6 @@ class NewHomeViewController: UIViewController {
             self?.viewModels.append(postData)
             completion(true)
         }
-        func createStoriesViewModel(
-            model: Story,
-            username: String,
-            completion: @escaping (Bool) -> Void
-        ) {
-            StorageManager.shared.profilePictureURL(for: username) { [weak self] profilePictureURL in
-                let profileImage = model.profileImageUrlString
-        }
-    }
     }
     
     private func configureCollectionView() {
@@ -422,19 +411,16 @@ extension NewHomeViewController: UICollectionViewDelegate, UICollectionViewDataS
             return UICollectionReusableView()
         }
         
-        // get all the users following
-        
-        
-//        let viewModel = StoriesViewModel(stories: [
-//            Story(username: "story1", image: UIImage(named: "test")),
-//            Story(username: "story1", image: UIImage(named: "test")),
-//            Story(username: "story1", image: UIImage(named: "test")),
-//            Story(username: "story1", image: UIImage(named: "test")),
-//            Story(username: "story1", image: UIImage(named: "test")),
-//            Story(username: "story1", image: UIImage(named: "test")),
-//            Story(username: "story1", image: UIImage(named: "test")),
-//        ])
-//        headerView.configure(with: viewModel)
+        let viewModel = StoriesViewModel(stories: [
+            Story(username: "ryanKan", image: UIImage(named: "test")),
+            Story(username: "annaKan", image: UIImage(named: "test")),
+            Story(username: "khenboKan", image: UIImage(named: "test")),
+            Story(username: "story1", image: UIImage(named: "test")),
+            Story(username: "story1", image: UIImage(named: "test")),
+            Story(username: "story1", image: UIImage(named: "test")),
+            Story(username: "story1", image: UIImage(named: "test")),
+        ])
+        headerView.configure(with: viewModel)
         return headerView
     }
 }

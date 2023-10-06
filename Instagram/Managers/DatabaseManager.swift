@@ -493,4 +493,12 @@ final class DatabaseManager {
             }
         }
     }
+    
+    public func stories(
+        for username: String,
+        completion: @escaping (Result<[Story], Error>) -> Void
+    ) {
+        let ref = database.collection("users")
+            .document(username)
+    }
 }

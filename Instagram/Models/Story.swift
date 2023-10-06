@@ -14,5 +14,5 @@ struct StoriesViewModel {
 
 struct Story {
     let username: String
-    let profileImageUrlString: URL
+    let image: UIImage?
 }
