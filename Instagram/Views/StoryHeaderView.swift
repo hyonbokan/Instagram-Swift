@@ -29,11 +29,22 @@ class StoryHeaderView: UICollectionReusableView, UICollectionViewDelegate, UICol
     
     private let logoImage: UIImageView = {
         let logoImage = UIImageView()
-        logoImage.image = UIImage(named: "logo_text")
+        if UITraitCollection.current.userInterfaceStyle == .dark {
+            logoImage.image = UIImage(named: "logo_text")
+        } else {
+            logoImage.image = UIImage(named: "logo_text_lightmode")
+        }
         logoImage.contentMode = .scaleAspectFit
 //        logoImage.backgroundColor = .blue
         return logoImage
     }()
+//    private let logoLabel: UILabel = {
+//        let label = UILabel()
+//        label.text = "Instagram"
+//        label.font = UIFont(name: "Zapfino", size: 30)
+//        label.backgroundColor = .red
+//        return label
+//    }()
     
     private let messageButton: UIButton = {
         let messageButton = UIButton()

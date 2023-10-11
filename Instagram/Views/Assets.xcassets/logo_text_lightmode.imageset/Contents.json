@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "instagram-logo-text-black-png.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
